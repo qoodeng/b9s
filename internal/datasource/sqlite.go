@@ -9,8 +9,8 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // SQLiteReader provides read access to a beads SQLite database

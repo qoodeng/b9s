@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/internal/datasource"
 )
 
 // The Memory preview tests need the integration-branch bd, which no release

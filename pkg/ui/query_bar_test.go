@@ -9,8 +9,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 func TestSearchHistoryKeepsSelectionVisible(t *testing.T) {
@@ -132,7 +132,7 @@ func TestSlashStartsSharedQueryEditingInEveryView(t *testing.T) {
 		setup func(*Model)
 	}{
 		{name: "tree", focus: focusTree, setup: func(m *Model) { m.treeViewActive = true }},
-		{name: "list", focus: focusList, setup: func(m *Model) { m.treeViewActive = false }},
+		{name: "flat tree", focus: focusTree, setup: func(m *Model) { m.tree.ToggleFlatMode() }},
 		{name: "board", focus: focusBoard, setup: func(m *Model) { m.isBoardView = true }},
 	}
 

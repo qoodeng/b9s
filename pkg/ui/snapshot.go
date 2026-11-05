@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 type datasetTier int

@@ -7,8 +7,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 func detailFixture() (model.Issue, map[string]*model.Issue) {

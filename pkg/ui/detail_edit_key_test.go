@@ -5,7 +5,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 func pressKeys(m Model, keys ...tea.KeyMsg) Model {
@@ -15,7 +15,6 @@ func pressKeys(m Model, keys ...tea.KeyMsg) Model {
 	}
 	return m
 }
-
 
 // The detail footer advertises e:edit, so e must open the edit modal for the
 // issue the detail shows, also when the detail was reached through a search.

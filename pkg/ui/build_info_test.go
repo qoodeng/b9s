@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/vanderheijden86/b9s/pkg/version"
+	"github.com/qoodeng/b9s/pkg/version"
 )
 
 func withBuildInfo(t *testing.T, info version.Info) {
@@ -27,7 +27,7 @@ func TestHelpOverlayShowsVersionAndLinkedCommit(t *testing.T) {
 	if !strings.Contains(help, "b9s v1.3.3") || !strings.Contains(help, "0704a347") {
 		t.Errorf("help overlay does not show the version and short commit:\n%s", help)
 	}
-	link := "\x1b]8;;https://github.com/vanderheijden86/b9s/commit/" + sha + "\x1b\\"
+	link := "\x1b]8;;https://github.com/qoodeng/b9s/commit/" + sha + "\x1b\\"
 	if !strings.Contains(raw, link) {
 		t.Errorf("help overlay does not link the commit to GitHub with OSC 8")
 	}

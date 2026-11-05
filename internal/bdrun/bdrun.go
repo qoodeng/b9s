@@ -15,7 +15,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/debug"
 )
 
 // Resolve locates the bd binary on PATH. ok is false when bd is not

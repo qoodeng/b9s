@@ -195,7 +195,7 @@ func CheckListen(addr string, auth *Auth) error {
 func IsLoopbackAddr(addr string) bool {
 	host, _, err := net.SplitHostPort(addr)
 	if err != nil {
-		host = addr
+		host = strings.Trim(addr, "[]")
 	}
 	if host == "localhost" {
 		return true

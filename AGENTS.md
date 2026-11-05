@@ -53,7 +53,7 @@ A Go terminal UI for Beads issues, modelled on k9s. It reads a Dolt server, SQLi
 
 ## Go toolchain
 
-- Go **1.25** (`go.mod` is the source of truth; CI mirrors it).
+- Go **1.26** (`go.mod` is the source of truth; CI mirrors it).
 - Build: `go build ./...`
 - Test: `go test ./... -skip DoltIntegration` (add `-race` for the race detector)
 - Stable suite for automated agents: `make test-stable`. It leaves out tests/e2e and the host-sensitive tests listed in the Makefile. Run it alone, with no base-branch comparison.

@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // typeFunctionKeys bind one issue type each to a function key, the way k9s

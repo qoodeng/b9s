@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/bdrun"
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/internal/bdrun"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 func TestMemoryPreviewLauncherIsolatesConfig(t *testing.T) {

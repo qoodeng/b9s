@@ -14,10 +14,10 @@ import (
 	"syscall"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // sha256Hex returns content's sha256 as lowercase hex, the same form

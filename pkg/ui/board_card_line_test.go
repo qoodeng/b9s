@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // sparseIssue returns the sparse board's copy of id, so the card sees the

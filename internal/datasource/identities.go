@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/identity"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/identity"
 )
 
 // IdentityConfig is the raw identity configuration a project database holds.

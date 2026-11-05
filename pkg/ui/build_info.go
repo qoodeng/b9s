@@ -1,6 +1,6 @@
 package ui
 
-import "github.com/vanderheijden86/b9s/pkg/version"
+import "github.com/qoodeng/b9s/pkg/version"
 
 // buildInfo is the running build; tests replace it to render a known one.
 var buildInfo = version.Get

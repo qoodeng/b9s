@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // The sample project is what the README tells a newcomer to open, so it must

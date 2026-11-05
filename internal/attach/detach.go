@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/attachref"
 )
 
 // Detach appends a detach comment for sha256, provided it is currently

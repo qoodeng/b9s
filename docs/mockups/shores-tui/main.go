@@ -17,7 +17,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/muesli/termenv"
-	"github.com/vanderheijden86/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/internal/datasource"
 )
 
 var designs = []struct {

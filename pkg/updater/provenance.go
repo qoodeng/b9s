@@ -42,6 +42,12 @@ func requireAttestationAsset(release *Release) (*Asset, error) {
 // file alone proves nothing here: whoever can replace an archive in a release
 // can replace checksums.txt beside it.
 func verifyProvenance(bundlePath string, archiveSHA256 []byte, tag string, trusted root.TrustedMaterial) error {
+	return verifyProvenanceFrom(releaseWorkflowIDFmt, bundlePath, archiveSHA256, tag, trusted)
+}
+
+// verifyProvenanceFrom names the signing workflow, so the fixtures, which a
+// real release workflow signed, can test the checks that follow the identity.
+func verifyProvenanceFrom(workflowIDFmt, bundlePath string, archiveSHA256 []byte, tag string, trusted root.TrustedMaterial) error {
 	b, err := bundle.LoadJSONFromPath(bundlePath)
 	if err != nil {
 		return fmt.Errorf("read provenance bundle: %w", err)
@@ -54,7 +60,7 @@ func verifyProvenance(bundlePath string, archiveSHA256 []byte, tag string, trust
 	if err != nil {
 		return fmt.Errorf("build provenance verifier: %w", err)
 	}
-	identity, err := verify.NewShortCertificateIdentity(githubActionsIssuer, "", fmt.Sprintf(releaseWorkflowIDFmt, tag), "")
+	identity, err := verify.NewShortCertificateIdentity(githubActionsIssuer, "", fmt.Sprintf(workflowIDFmt, tag), "")
 	if err != nil {
 		return fmt.Errorf("build signer identity: %w", err)
 	}

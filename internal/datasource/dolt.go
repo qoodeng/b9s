@@ -10,8 +10,8 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // debugMySQLLogger redirects the MySQL driver's error output to our debug logger

@@ -13,8 +13,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/blobstore"
 )
 
 // dummySHA256 is a syntactically valid hash used only to isolate a name

@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // leanIssueQuery reads every column the tree, board, filters and sorting need

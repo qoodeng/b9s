@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 // writeEmbeddedCheckout lays out a project as `bd init` creates it by

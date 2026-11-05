@@ -9,7 +9,7 @@
 //
 // Usage:
 //
-//	import "github.com/vanderheijden86/b9s/pkg/debug"
+//	import "github.com/qoodeng/b9s/pkg/debug"
 //
 //	func myFunc() {
 //	    debug.Log("processing %d items", count)

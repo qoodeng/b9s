@@ -24,7 +24,7 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22'
@@ -62,7 +62,7 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22'
@@ -94,7 +94,7 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22'
@@ -127,7 +127,7 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22'
@@ -165,7 +165,7 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
     - name: Race detector
       run: go test -race -timeout 25m -skip DoltIntegration -p 2 $(go list ./... | grep -v /tests/e2e)
 
@@ -178,6 +178,6 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
     - name: Terminal E2E
       run: go test -timeout 20m -v ./tests/e2e -count=1

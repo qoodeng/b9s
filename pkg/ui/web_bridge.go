@@ -1,9 +1,9 @@
 package ui
 
 import (
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // These wrappers expose TUI rules to b9s web, so the browser applies the same

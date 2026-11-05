@@ -11,13 +11,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/attach"
-	"github.com/vanderheijden86/b9s/internal/bdrun"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/loader"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/attach"
+	"github.com/qoodeng/b9s/internal/bdrun"
+	"github.com/qoodeng/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 const attachUsage = `usage: b9s attach <issue-id> <file>...

@@ -19,10 +19,10 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	dbg "github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/loader"
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/watcher"
+	dbg "github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/watcher"
 )
 
 // WorkerState represents the current state of the background worker.
@@ -172,26 +172,26 @@ type BackgroundWorker struct {
 	maxRecoveries     int
 
 	// State
-	mu                sync.RWMutex
-	state             WorkerState
-	dirty             bool // True if a change came in while processing
-	snapshot          *DataSnapshot
-	started           bool // True if Start() has been called
-	watchdogStarted   bool
-	startTime         time.Time
-	lastHeartbeat     time.Time
-	processingStart   time.Time
-	recoveryCount     int
-	recovering        bool
-	generation        uint64
-	lastHash  string // Content hash of last processed snapshot (for dedup)
-	forceNext bool   // Force the next snapshot build even if content hash matches
-	logLevel  WorkerLogLevel
-	logJSON           bool
-	metricsEnabled    bool
-	tracePath         string
-	traceFile         *os.File
-	traceMu           sync.Mutex
+	mu              sync.RWMutex
+	state           WorkerState
+	dirty           bool // True if a change came in while processing
+	snapshot        *DataSnapshot
+	started         bool // True if Start() has been called
+	watchdogStarted bool
+	startTime       time.Time
+	lastHeartbeat   time.Time
+	processingStart time.Time
+	recoveryCount   int
+	recovering      bool
+	generation      uint64
+	lastHash        string // Content hash of last processed snapshot (for dedup)
+	forceNext       bool   // Force the next snapshot build even if content hash matches
+	logLevel        WorkerLogLevel
+	logJSON         bool
+	metricsEnabled  bool
+	tracePath       string
+	traceFile       *os.File
+	traceMu         sync.Mutex
 
 	// Idle-time GC management (bv-4yje).
 	idleGCEnabled     bool

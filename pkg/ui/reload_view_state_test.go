@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/charmbracelet/bubbles/list"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // foldFixture holds an open epic with an open child, and a closed issue.

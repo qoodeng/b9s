@@ -12,10 +12,10 @@ import (
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/vanderheijden86/b9s/internal/attach"
-	"github.com/vanderheijden86/b9s/internal/bdrun"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
-	"github.com/vanderheijden86/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/internal/attach"
+	"github.com/qoodeng/b9s/internal/bdrun"
+	"github.com/qoodeng/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/pkg/debug"
 )
 
 // attachAddTimeout bounds internal/attach.Add: it never blocks Update, but a

@@ -17,11 +17,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/version"
+	"github.com/qoodeng/b9s/pkg/version"
 )
 
 const (
-	repoOwner              = "vanderheijden86"
+	repoOwner              = "qoodeng"
 	repoName               = "b9s"
 	baseURL                = "https://api.github.com/repos/" + repoOwner + "/" + repoName
 	maxExtractedBinarySize = 256 << 20
@@ -552,12 +552,19 @@ func GetSelfUpdateBinaryPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("cannot determine binary path: %w", err)
 	}
-	for dir := filepath.Dir(binaryPath); dir != filepath.Dir(dir); dir = filepath.Dir(dir) {
-		if strings.EqualFold(filepath.Ext(dir), ".app") {
-			return "", fmt.Errorf("cannot update b9s inside an app bundle without breaking its code signature; download the new DMG from https://github.com/vanderheijden86/b9s/releases/latest")
-		}
+	if isInsideAppBundle(binaryPath) {
+		return "", fmt.Errorf("cannot update b9s inside an app bundle without breaking its code signature; download the new DMG from https://github.com/qoodeng/b9s/releases/latest")
 	}
 	return binaryPath, nil
+}
+
+func isInsideAppBundle(binaryPath string) bool {
+	for dir := filepath.Dir(binaryPath); dir != filepath.Dir(dir); dir = filepath.Dir(dir) {
+		if strings.EqualFold(filepath.Ext(dir), ".app") {
+			return true
+		}
+	}
+	return false
 }
 
 // GetBackupPath returns the path for the backup binary
@@ -687,15 +694,8 @@ func PerformUpdate(release *Release, skipConfirm bool) (*UpdateResult, error) {
 
 	// Replace binary
 	fmt.Println("Installing new version...")
-	if err := os.Rename(newBinaryPath, binaryPath); err != nil {
-		// On some systems, rename across filesystems doesn't work
-		if err := copyFile(newBinaryPath, binaryPath); err != nil {
-			// Restore from backup
-			if restoreErr := copyFile(backupPath, binaryPath); restoreErr != nil {
-				return nil, fmt.Errorf("installation failed: %w (restore also failed: %v; manual recovery: cp %s %s)", err, restoreErr, backupPath, binaryPath)
-			}
-			return nil, fmt.Errorf("installation failed (restored from backup): %w", err)
-		}
+	if err := replaceFile(newBinaryPath, binaryPath); err != nil {
+		return nil, fmt.Errorf("installation failed, the current binary is unchanged: %w", err)
 	}
 
 	// Ensure executable permissions
@@ -732,6 +732,44 @@ func copyFile(src, dst string) error {
 	return err
 }
 
+// replaceFile puts a copy of src at dst through a rename, so dst is never
+// open for writing: Linux refuses that for a running binary (ETXTBSY), and on
+// macOS it invalidates the signature of the file in place. The temporary file
+// sits beside dst because a rename cannot cross filesystems. A failure leaves
+// dst as it was.
+func replaceFile(src, dst string) error {
+	tmp, err := os.CreateTemp(filepath.Dir(dst), "."+filepath.Base(dst)+".new-*")
+	if err != nil {
+		return err
+	}
+	tmpPath := tmp.Name()
+	if err := tmp.Close(); err != nil {
+		os.Remove(tmpPath)
+		return err
+	}
+	if err := copyFile(src, tmpPath); err != nil {
+		os.Remove(tmpPath)
+		return err
+	}
+	info, err := os.Stat(src)
+	if err == nil {
+		err = os.Chmod(tmpPath, info.Mode())
+	}
+	if err == nil {
+		err = os.Rename(tmpPath, dst)
+	}
+	if err != nil {
+		os.Remove(tmpPath)
+		return err
+	}
+	return nil
+}
+
+// ReleaseIsNewer reports whether rel is newer than the running build.
+func ReleaseIsNewer(rel *Release) bool {
+	return compareVersions(rel.TagName, version.Version) > 0
+}
+
 // runCommand executes a command and returns any error
 func runCommand(name string, args ...string) error {
 	cmd := osExec.Command(name, args...)
@@ -751,7 +789,7 @@ func Rollback() error {
 	}
 
 	fmt.Printf("Rolling back from backup at %s...\n", backupPath)
-	if err := copyFile(backupPath, binaryPath); err != nil {
+	if err := replaceFile(backupPath, binaryPath); err != nil {
 		return fmt.Errorf("rollback failed: %w", err)
 	}
 

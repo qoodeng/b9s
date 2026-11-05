@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/debug"
 )
 
 // MemoryDialect names the Memory Beads read format a bd binary speaks.

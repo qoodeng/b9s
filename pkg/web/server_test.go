@@ -3,6 +3,7 @@ package web
 import (
 	"bufio"
 	"context"
+	"database/sql"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -16,9 +17,9 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/ui"
-	"github.com/vanderheijden86/b9s/pkg/version"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/version"
 )
 
 // fixtureIssues covers every derivation rule: a parent-child link, an open
@@ -620,5 +621,87 @@ func TestSnapshotLeavesOutLongTextThatIssueReturns(t *testing.T) {
 	}
 	if code := getJSON(t, &http.Client{Timeout: 5 * time.Second}, ts.URL+"/api/issue?id=t-5", nil); code != http.StatusUnauthorized && code != http.StatusForbidden {
 		t.Fatalf("unpaired issue read: %d", code)
+	}
+}
+
+// Comments failing leaves every other column loaded, so a reload must publish
+// the issues and report the failure, as the terminal does, not freeze the page.
+func TestReloadKeepsIssuesWhenOnlyCommentsFail(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "beads.db")
+	db, err := sql.Open("sqlite", path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	for _, stmt := range []string{
+		`CREATE TABLE issues (id TEXT, title TEXT, description TEXT, status TEXT, priority INT, issue_type TEXT, created_at DATETIME, updated_at DATETIME, tombstone INT)`,
+		`INSERT INTO issues VALUES ('t-1', 'one', '', 'open', 2, 'task', '2026-09-25 00:00:00', '2026-09-25 00:00:00', 0)`,
+		// No comments table: every comments query fails outright.
+	} {
+		if _, err := db.Exec(stmt); err != nil {
+			t.Fatal(err)
+		}
+	}
+	s := NewStore(0)
+	t.Cleanup(s.Close)
+	s.source = datasource.DataSource{Type: datasource.SourceTypeSQLite, Path: path}
+
+	s.Reload()
+
+	if issues, _ := s.Issues(); len(issues) != 1 {
+		t.Fatalf("issues = %+v, want t-1 despite the comments failure", issues)
+	}
+	if h := s.Health(true); h.OK || !strings.Contains(h.Error, "comments unavailable") {
+		t.Fatalf("health = %+v, want the comments failure reported", h)
+	}
+}
+
+// Without pairing, nothing proves a request came from this machine: a web page
+// can rebind its name to 127.0.0.1, and tailscale serve proxies from loopback.
+func TestNoTokenServerAnswersOnlyLoopbackHosts(t *testing.T) {
+	ts := newTestServer(t, nil, nil)
+	for host, want := range map[string]int{
+		"evil.example":        http.StatusForbidden,
+		"laptop.tail1.ts.net": http.StatusForbidden,
+		"127.0.0.1.nip.io":    http.StatusForbidden,
+		"localhost:7979":      http.StatusOK,
+		"127.0.0.1:7979":      http.StatusOK,
+		"[::1]:7979":          http.StatusOK,
+		"[::1]":               http.StatusOK,
+	} {
+		req, err := http.NewRequest(http.MethodGet, ts.URL+"/api/health", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		req.Host = host
+		resp, err := ts.Client().Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		resp.Body.Close()
+		if resp.StatusCode != want {
+			t.Errorf("Host %q: %d, want %d", host, resp.StatusCode, want)
+		}
+	}
+}
+
+// A cross-site form or no-cors fetch can POST text/plain without a preflight,
+// and only JSON makes the browser ask first.
+func TestNoTokenServerRefusesWritesThatAreNotJSON(t *testing.T) {
+	writer, log := fakeBd(t)
+	ts := newTestServer(t, nil, writer)
+	body := `{"op":"close","ids":["t-1"]}`
+
+	resp, err := ts.Client().Post(ts.URL+"/api/write", "text/plain", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+
+	if resp.StatusCode != http.StatusUnsupportedMediaType {
+		t.Errorf("text/plain write: %d, want 415", resp.StatusCode)
+	}
+	if calls := bdCalls(t, log); len(calls) != 0 {
+		t.Errorf("bd ran for a refused write: %q", calls)
 	}
 }

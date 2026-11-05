@@ -9,11 +9,11 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/loader"
-	"github.com/vanderheijden86/b9s/pkg/watcher"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/watcher"
 )
 
 // projectOpenFunc loads a project to switch to; datasource.OpenProject outside tests.
@@ -365,6 +365,7 @@ func (m Model) applyProjectSwitch(project config.Project) (Model, tea.Cmd) {
 	m.tree.ApplyFilter("all")
 	m.tree.ClearSearch()
 	m.tree.Build(nil)
+	m.tree.SetBeadsDir(beadsDir)
 	// Start new background worker or watcher for the new project
 	bw, bwErr := NewBackgroundWorker(WorkerConfig{BeadsPath: newPath})
 	if bwErr == nil && !m.sourceType.IsDolt() {

@@ -170,7 +170,7 @@ test.describe("reading", () => {
     const sheet = page.locator(".msheet");
     await expect(sheet).toContainText("b9s version");
     const link = sheet.locator("a");
-    await expect(link).toHaveAttribute("href", /^https:\/\/github\.com\/vanderheijden86\/b9s\/commit\/[0-9a-f]{40}$/);
+    await expect(link).toHaveAttribute("href", /^https:\/\/github\.com\/qoodeng\/b9s\/commit\/[0-9a-f]{40}$/);
     await expect(link).toHaveAttribute("target", "_blank");
   });
 

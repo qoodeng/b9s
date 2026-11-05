@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_OWNER="vanderheijden86"
+REPO_OWNER="qoodeng"
 REPO_NAME="b9s"
 BIN_NAME="b9s"
 
@@ -371,7 +371,7 @@ is_tty() {
 }
 
 ensure_go() {
-    local min_version="1.25"
+    local min_version="1.26"
     local go_version=""
 
     if command -v go >/dev/null 2>&1; then
@@ -553,7 +553,7 @@ try_go_install() {
 
     local go_version
     if ! go_version=$(ensure_go); then
-        print_error "Go 1.25 or later is required for building from source."
+        print_error "Go 1.26 or later is required for building from source."
         exit 1
     fi
 
@@ -629,7 +629,7 @@ main() {
         print_info "Run '$BIN_NAME' in any beads project to view issues."
         echo ""
         echo "Tip: You can also install via Homebrew:"
-        echo "  brew install vanderheijden86/tap/b9s"
+        echo "  brew install qoodeng/tap/b9s"
         exit 0
     fi
 
@@ -641,7 +641,7 @@ main() {
     print_info "Run '$BIN_NAME' in any beads project to view issues."
     echo ""
     echo "Tip: You can also install via Homebrew:"
-    echo "  brew install vanderheijden86/tap/b9s"
+    echo "  brew install qoodeng/tap/b9s"
 }
 
 if [[ ${BASH_SOURCE+x} != x ]]; then

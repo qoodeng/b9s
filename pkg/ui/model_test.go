@@ -6,8 +6,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/ui"
 )
 
 func TestModelFiltering(t *testing.T) {
@@ -218,7 +218,6 @@ func TestFocusTransitionBoard(t *testing.T) {
 		t.Error("IsBoardView should be false after second 'b'")
 	}
 }
-
 
 // TestFocusTransitionTree verifies tree is permanent (bd-8hw.4: no list view)
 func TestFocusTransitionTree(t *testing.T) {

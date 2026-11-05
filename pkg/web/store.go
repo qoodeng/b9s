@@ -9,12 +9,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/identity"
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/ui"
-	"github.com/vanderheijden86/b9s/pkg/watcher"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/identity"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/watcher"
 )
 
 // Store holds the open project and tells subscribers when its data changes.
@@ -83,7 +83,7 @@ func (s *Store) Open(target datasource.OpenTarget, key string) *datasource.OpenF
 	s.target = target
 	s.source = opened.Source
 	s.fallback = fallback
-	s.loadErr = ""
+	s.loadErr = loadNote(opened.CommentsErr)
 	s.loadedAt = time.Now()
 	s.issues = opened.Issues
 	s.resetMemoryLocked(opened.Source)
@@ -108,7 +108,7 @@ func (s *Store) OpenAll(dbs []datasource.DoltDBInfo) error {
 		return err
 	}
 	issues, err := reader.LoadAllIssues()
-	if err != nil {
+	if err != nil && !errors.Is(err, datasource.ErrCommentsUnavailable) {
 		reader.Close()
 		return err
 	}
@@ -121,7 +121,7 @@ func (s *Store) OpenAll(dbs []datasource.DoltDBInfo) error {
 	s.source = datasource.DataSource{Type: datasource.SourceTypeDolt, Path: fmt.Sprintf("%d databases", len(dbs))}
 	s.multi = reader
 	s.fallback = ""
-	s.loadErr = ""
+	s.loadErr = loadNote(err)
 	s.loadedAt = time.Now()
 	s.issues = issues
 	s.memory = memoryState{generation: s.memory.generation + 1}
@@ -149,7 +149,8 @@ func (s *Store) OpenAll(dbs []datasource.DoltDBInfo) error {
 const AllProjectsKey = "*"
 
 // Reload reads the open project again and publishes a change when it loads.
-// A failed read keeps the issues on screen and reports the error in Health.
+// A failed read keeps the issues on screen and reports the error in Health, and
+// so does a comments-only failure, which publishes the rest of the load.
 func (s *Store) Reload() {
 	s.mu.RLock()
 	source, multi := s.source, s.multi
@@ -172,14 +173,14 @@ func (s *Store) Reload() {
 		s.mu.Unlock()
 		return
 	}
-	if err != nil {
+	if err != nil && !errors.Is(err, datasource.ErrCommentsUnavailable) {
 		s.loadErr = err.Error()
 		s.mu.Unlock()
 		debug.Log("web: reload failed: %v", err)
 		s.publish(Event{Type: "health"})
 		return
 	}
-	s.loadErr = ""
+	s.loadErr = loadNote(err)
 	s.loadedAt = time.Now()
 	s.issues = issues
 	s.refreshMemoryLocked()
@@ -187,6 +188,15 @@ func (s *Store) Reload() {
 	version := s.version
 	s.mu.Unlock()
 	s.publish(Event{Type: "changed", Version: version})
+}
+
+// loadNote is the Health error of a load that still published its issues: a
+// comments-only failure leaves every other column loaded.
+func loadNote(err error) string {
+	if err == nil {
+		return ""
+	}
+	return err.Error()
 }
 
 // Version is the number of loads so far. Every load increments it.

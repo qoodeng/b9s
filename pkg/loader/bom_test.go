@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/loader"
 )
 
 func TestLoadIssuesFromFile_WithBOM(t *testing.T) {

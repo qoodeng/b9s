@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // leanChangeOverlap reaches back before the previous read's server time. A

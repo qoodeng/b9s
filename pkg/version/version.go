@@ -11,8 +11,8 @@ import (
 
 // Version and Commit are set at release time through the linker, e.g.
 //
-//	go build -ldflags "-X github.com/vanderheijden86/b9s/pkg/version.Version=v1.2.3 \
-//	  -X github.com/vanderheijden86/b9s/pkg/version.Commit=<sha>"
+//	go build -ldflags "-X github.com/qoodeng/b9s/pkg/version.Version=v1.2.3 \
+//	  -X github.com/qoodeng/b9s/pkg/version.Commit=<sha>"
 //
 // A build without them (go install module@tag, make build) takes both from
 // the Go build info, and init replaces Version with the resolved value so the
@@ -23,7 +23,7 @@ var (
 )
 
 // RepoURL is the public repository the commit links point into.
-const RepoURL = "https://github.com/vanderheijden86/b9s"
+const RepoURL = "https://github.com/qoodeng/b9s"
 
 // Info identifies one build.
 type Info struct {

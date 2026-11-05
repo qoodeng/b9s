@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 # The public b9s demo: one writable sample project, reset every half hour.
 # See scripts/demo/README.md. Build from the repository root.
-FROM golang:1.25-alpine@sha256:1ae0735f00daffa3aaf1363a5184c0d2dc55c78e3db4ec70241cdac97bf84b59 AS builder
+FROM golang:1.26-alpine@sha256:8ac98ca534ac3f51e1f420a1dd2c15e74c75cfa0f23f3ad27eb5d7236c349a0c AS builder
 
 RUN apk add --no-cache build-base
 WORKDIR /src
@@ -10,7 +10,7 @@ COPY . .
 # reports a development version and offers an update.
 ARG VERSION=dev
 RUN CGO_ENABLED=1 go build -mod=vendor \
-    -ldflags "-s -w -X github.com/vanderheijden86/b9s/pkg/version.Version=${VERSION}" \
+    -ldflags "-s -w -X github.com/qoodeng/b9s/pkg/version.Version=${VERSION}" \
     -o /out/b9s ./cmd/b9s
 
 # Built here, as in scripts/web, because the published bd is linked against glibc.

@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // newMemoryWebProject opens a Memory preview workspace whose bd logs every
@@ -53,7 +53,7 @@ esac
 func getMemoryGraph(t *testing.T, server *Server) MemoryGraphResponse {
 	t.Helper()
 	w := httptest.NewRecorder()
-	server.ServeHTTP(w, httptest.NewRequest("GET", "/api/memory-graph", nil))
+	server.ServeHTTP(w, httptest.NewRequest("GET", "http://127.0.0.1/api/memory-graph", nil))
 	var graph MemoryGraphResponse
 	if err := json.Unmarshal(w.Body.Bytes(), &graph); err != nil {
 		t.Fatal(err)
@@ -307,7 +307,7 @@ func TestMemoryGraphEndpointExplainsWhyThereIsNoGraph(t *testing.T) {
 				t.Fatal(err)
 			}
 			w := httptest.NewRecorder()
-			server.ServeHTTP(w, httptest.NewRequest("GET", "/api/memory-graph", nil))
+			server.ServeHTTP(w, httptest.NewRequest("GET", "http://127.0.0.1/api/memory-graph", nil))
 			var graph MemoryGraphResponse
 			if err := json.Unmarshal(w.Body.Bytes(), &graph); err != nil {
 				t.Fatal(err)

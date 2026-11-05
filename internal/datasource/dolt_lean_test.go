@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 func TestLeanIssueQuerySelectsNoTextColumn(t *testing.T) {

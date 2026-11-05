@@ -394,7 +394,6 @@ func TestBackgroundWorker_MetricsSnapshot(t *testing.T) {
 	}
 }
 
-
 func TestBackgroundWorker_LargeDatasetWarning(t *testing.T) {
 	tmpDir := t.TempDir()
 	beadsPath := filepath.Join(tmpDir, "beads.jsonl")

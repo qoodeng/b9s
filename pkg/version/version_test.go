@@ -6,7 +6,7 @@ import (
 )
 
 func buildInfo(mainVersion string, settings map[string]string) *debug.BuildInfo {
-	bi := &debug.BuildInfo{Main: debug.Module{Path: "github.com/vanderheijden86/b9s", Version: mainVersion}}
+	bi := &debug.BuildInfo{Main: debug.Module{Path: "github.com/qoodeng/b9s", Version: mainVersion}}
 	for k, v := range settings {
 		bi.Settings = append(bi.Settings, debug.BuildSetting{Key: k, Value: v})
 	}
@@ -71,25 +71,25 @@ func TestInfoDisplay(t *testing.T) {
 		{
 			in:    Info{Version: "v1.3.3", Commit: sha},
 			label: "v1.3.3", short: "0704a347",
-			url:     "https://github.com/vanderheijden86/b9s/commit/" + sha,
+			url:     "https://github.com/qoodeng/b9s/commit/" + sha,
 			string_: "v1.3.3 (0704a347)",
 		},
 		{
 			in:    Info{Version: "v1.3.4-0.20261010120000-0704a347f00d+dirty", Commit: sha, Modified: true},
 			label: "dev after v1.3.3", short: "0704a347",
-			url:     "https://github.com/vanderheijden86/b9s/commit/" + sha,
+			url:     "https://github.com/qoodeng/b9s/commit/" + sha,
 			string_: "dev after v1.3.3 (0704a347, modified)",
 		},
 		{
 			in:    Info{Version: "v1.4.0-rc.1.0.20261010120000-0704a347f00d", Commit: sha},
 			label: "dev after v1.4.0-rc.1", short: "0704a347",
-			url:     "https://github.com/vanderheijden86/b9s/commit/" + sha,
+			url:     "https://github.com/qoodeng/b9s/commit/" + sha,
 			string_: "dev after v1.4.0-rc.1 (0704a347)",
 		},
 		{
 			in:    Info{Version: "v0.0.0-20261010120000-0704a347f00d", Commit: sha},
 			label: "dev", short: "0704a347",
-			url:     "https://github.com/vanderheijden86/b9s/commit/" + sha,
+			url:     "https://github.com/qoodeng/b9s/commit/" + sha,
 			string_: "dev (0704a347)",
 		},
 		{

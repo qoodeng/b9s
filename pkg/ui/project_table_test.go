@@ -9,7 +9,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/go-sql-driver/mysql"
 
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 // projectTableModel is a sized model whose startup project connects to the
@@ -19,6 +19,10 @@ func projectTableModel(t *testing.T) (Model, string) {
 	t.Setenv("XDG_CONFIG_HOME", t.TempDir())
 	checkout := t.TempDir()
 	if err := os.Mkdir(filepath.Join(checkout, ".beads"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	metadata := `{"backend":"dolt","dolt_mode":"server","dolt_server_host":"127.0.0.1","dolt_server_port":3306,"dolt_server_user":"bd_b9s","dolt_database":"b9s"}`
+	if err := os.WriteFile(filepath.Join(checkout, ".beads", "metadata.json"), []byte(metadata), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	cfg := config.Config{RecentProjects: []config.RecentProject{

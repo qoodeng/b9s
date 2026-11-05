@@ -3,7 +3,7 @@ package ui
 import (
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 
 	tea "github.com/charmbracelet/bubbletea"
 )

@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 func newPublicServer(t *testing.T, opts Options) *testServer {
@@ -132,5 +132,22 @@ func TestEventStreamsAreCapped(t *testing.T) {
 	second.Body.Close()
 	if second.StatusCode != http.StatusServiceUnavailable {
 		t.Fatalf("second stream: %d, want 503", second.StatusCode)
+	}
+}
+
+func TestPublicServerAnswersAnyHost(t *testing.T) {
+	ts := newPublicServer(t, Options{})
+	req, err := http.NewRequest(http.MethodGet, ts.URL+"/api/health", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Host = "demo.example"
+	resp, err := ts.Client().Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("public server behind a proxy: %d, want 200", resp.StatusCode)
 	}
 }

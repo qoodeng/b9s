@@ -15,14 +15,14 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/loader"
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/ui"
-	"github.com/vanderheijden86/b9s/pkg/updater"
-	"github.com/vanderheijden86/b9s/pkg/version"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/updater"
+	"github.com/qoodeng/b9s/pkg/version"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"golang.org/x/term"
@@ -129,14 +129,13 @@ func main() {
 			os.Exit(1)
 		}
 
-		available, newVersion, _, _ := updater.CheckUpdateAvailable()
-		if !available {
+		if !updater.ReleaseIsNewer(release) {
 			fmt.Printf("b9s is already up to date (version %s)\n", version.Version)
 			os.Exit(0)
 		}
 
 		if !*yesFlag {
-			fmt.Printf("Update b9s from %s to %s? [Y/n]: ", version.Version, newVersion)
+			fmt.Printf("Update b9s from %s to %s? [Y/n]: ", version.Version, release.TagName)
 			var response string
 			fmt.Scanln(&response)
 			response = strings.ToLower(strings.TrimSpace(response))
@@ -302,6 +301,7 @@ func main() {
 		WithDoltFailure(doltFailure).
 		WithSourceInfo(sourceInfo).
 		WithConfig(appCfg, projectName, projectPath).
+		WithBeadsDir(beadsDir).
 		WithHotkeys(hotkeys).
 		WithMonthFirst(appCfg.UI.DateOrder.MonthFirst(config.SystemLocale)).
 		WithInitialQuery(*initialFilter).

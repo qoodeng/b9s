@@ -13,6 +13,31 @@ import (
 	"time"
 )
 
+func TestIsInsideAppBundle(t *testing.T) {
+	for _, tt := range []struct {
+		name    string
+		path    string
+		bundled bool
+	}{
+		{"bundle", "B9s.app/Contents/Resources/bin/b9s", true},
+		{"uppercase_bundle", "B9s.APP/Contents/Resources/bin/b9s", true},
+		{"immediate_bundle", "B9s.app/b9s", true},
+		{"nested_bundle", "Outer.app/Contents/Inner.app/bin/b9s", true},
+		{"ordinary", "bin/b9s", false},
+		{"app_substring", "B9s.app-cache/bin/b9s", false},
+		{"executable_suffix", "bin/b9s.app", false},
+		{"uppercase_executable_suffix", "bin/b9s.APP", false},
+		{"filename_suffix_in_bundle", "B9s.app/Contents/bin/b9s.app", true},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			path := filepath.Join(string(filepath.Separator), "opt", filepath.FromSlash(tt.path))
+			if got := isInsideAppBundle(path); got != tt.bundled {
+				t.Fatalf("isInsideAppBundle(%q) = %v, want %v", path, got, tt.bundled)
+			}
+		})
+	}
+}
+
 func TestPerformUpdateExecutableLocation(t *testing.T) {
 	if expectedPath := os.Getenv("B9S_TEST_UPDATE_EXECUTABLE"); expectedPath != "" {
 		resolved, err := GetCurrentBinaryPath()
@@ -25,7 +50,7 @@ func TestPerformUpdateExecutableLocation(t *testing.T) {
 		_, err = PerformUpdate(&Release{TagName: "v99.0.0"}, true)
 		if os.Getenv("B9S_TEST_UPDATE_BUNDLE") == "1" {
 			if err == nil || !strings.Contains(err.Error(), "DMG") ||
-				!strings.Contains(err.Error(), "https://github.com/vanderheijden86/b9s/releases/latest") {
+				!strings.Contains(err.Error(), "https://github.com/qoodeng/b9s/releases/latest") {
 				t.Fatalf("bundled updater must direct users to download the DMG, got %v", err)
 			}
 		} else if err == nil || !strings.Contains(err.Error(), "no binary available") {
@@ -50,9 +75,12 @@ func TestPerformUpdateExecutableLocation(t *testing.T) {
 		{"ordinary", "bin/b9s", false, false},
 		{"linked_ordinary", "bin/b9s", true, false},
 		{"app_substring", "B9s.app-cache/bin/b9s", false, false},
-		{"executable_suffix", "bin/b9s.app", false, false},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
+			// macOS can kill an executable named *.app before Go starts.
+			if strings.EqualFold(filepath.Ext(tt.path), ".app") {
+				t.Fatal("subprocess executable must not end in .app; cover filename classification in TestIsInsideAppBundle")
+			}
 			dir := t.TempDir()
 			target := filepath.Join(dir, filepath.FromSlash(tt.path))
 			if err := os.MkdirAll(filepath.Dir(target), 0o755); err != nil {
@@ -186,5 +214,67 @@ func TestRollback_NoBackup(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "no backup found") {
 		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+// A running binary cannot be opened for writing on Linux (ETXTBSY), and on
+// macOS rewriting it in place invalidates its code signature. The old file
+// stays intact for whoever holds it, which only a rename gives.
+func TestReplaceFileLeavesTheOpenFileIntact(t *testing.T) {
+	src := filepath.Join(t.TempDir(), "new")
+	if err := os.WriteFile(src, []byte("new build"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	dir := t.TempDir()
+	dst := filepath.Join(dir, "b9s")
+	if err := os.WriteFile(dst, []byte("old build"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	running, err := os.Open(dst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer running.Close()
+
+	if err := replaceFile(src, dst); err != nil {
+		t.Fatalf("replaceFile: %v", err)
+	}
+
+	held := make([]byte, len("old build"))
+	if _, err := running.ReadAt(held, 0); err != nil {
+		t.Fatal(err)
+	}
+	if string(held) != "old build" {
+		t.Errorf("the open file now reads %q, want it untouched", held)
+	}
+	got, err := os.ReadFile(dst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(got) != "new build" {
+		t.Errorf("destination = %q, want the new build", got)
+	}
+	info, err := os.Stat(dst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if info.Mode().Perm() != 0o755 {
+		t.Errorf("destination mode = %v, want 0755", info.Mode().Perm())
+	}
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 1 {
+		t.Errorf("directory holds %d entries, want only the binary", len(entries))
+	}
+}
+
+func TestReleaseIsNewerComparesTheFetchedTag(t *testing.T) {
+	if !ReleaseIsNewer(&Release{TagName: "v1.0.1"}) {
+		t.Error("v1.0.1 is newer than the running v1.0.0")
+	}
+	if ReleaseIsNewer(&Release{TagName: "v1.0.0"}) {
+		t.Error("the running version is not newer than itself")
 	}
 }

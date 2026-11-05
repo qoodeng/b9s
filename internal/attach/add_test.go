@@ -14,10 +14,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/internal/bdrun"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/bdrun"
+	"github.com/qoodeng/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 // errCommandFailed stands in for whatever error a real bd invocation

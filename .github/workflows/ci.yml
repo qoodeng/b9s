@@ -22,7 +22,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
 
     - name: Build
       run: go build -v ./cmd/b9s
@@ -40,7 +40,7 @@ jobs:
           {
             file = $1
             sub(/:.*/, "", file)
-            if (file !~ /^github.com\/vanderheijden86\/b9s\/pkg\//) next
+            if (file !~ /^github.com\/qoodeng\/b9s\/pkg\//) next
             stmts = $2; count = $3; all += stmts
             if (count > 0) hit += stmts
           }
@@ -68,7 +68,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
-        go-version: '1.25.5'
+        go-version: '1.26.10'
 
     - name: Set up Node
       uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0

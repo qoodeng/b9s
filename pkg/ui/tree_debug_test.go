@@ -8,8 +8,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/ui"
 )
 
 func TestDebugTreeOrder(t *testing.T) {
@@ -18,17 +18,17 @@ func TestDebugTreeOrder(t *testing.T) {
 		{ID: "epic-1", Title: "Epic One", Status: model.StatusOpen, Priority: 1, IssueType: model.TypeEpic, CreatedAt: now},
 		{
 			ID: "task-1", Title: "Task One", Status: model.StatusOpen, Priority: 2, IssueType: model.TypeTask,
-			CreatedAt: now.Add(time.Second),
+			CreatedAt:    now.Add(time.Second),
 			Dependencies: []*model.Dependency{{IssueID: "task-1", DependsOnID: "epic-1", Type: model.DepParentChild}},
 		},
 		{
 			ID: "task-2", Title: "Task Two", Status: model.StatusOpen, Priority: 2, IssueType: model.TypeTask,
-			CreatedAt: now.Add(2 * time.Second),
+			CreatedAt:    now.Add(2 * time.Second),
 			Dependencies: []*model.Dependency{{IssueID: "task-2", DependsOnID: "epic-1", Type: model.DepParentChild}},
 		},
 		{
 			ID: "task-3", Title: "Task Three", Status: model.StatusOpen, Priority: 2, IssueType: model.TypeTask,
-			CreatedAt: now.Add(3 * time.Second),
+			CreatedAt:    now.Add(3 * time.Second),
 			Dependencies: []*model.Dependency{{IssueID: "task-3", DependsOnID: "epic-1", Type: model.DepParentChild}},
 		},
 		{ID: "standalone-1", Title: "Standalone One", Status: model.StatusOpen, Priority: 2, IssueType: model.TypeTask, CreatedAt: now.Add(4 * time.Second)},

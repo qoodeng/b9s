@@ -22,12 +22,12 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/loader"
-	"github.com/vanderheijden86/b9s/pkg/ui"
-	"github.com/vanderheijden86/b9s/pkg/web"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/web"
 )
 
 const defaultWebListen = "127.0.0.1:7979"

@@ -3,7 +3,7 @@ package blobstore
 import (
 	"fmt"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/internal/datasource"
 )
 
 // SourceInfoFromDataSource converts the data source b9s is actually reading
