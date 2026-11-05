@@ -50,7 +50,7 @@ sudo dpkg -i b9s_<version>_linux_amd64.deb   # Debian, Ubuntu
 sudo rpm -i b9s_<version>_linux_amd64.rpm    # Fedora, RHEL
 ```
 
-From source, with [Go 1.25 or later](https://go.dev/dl/): `git clone https://github.com/vanderheijden86/b9s.git && cd b9s && make install`.
+From source, with [Go 1.26 or later](https://go.dev/dl/): `git clone https://github.com/vanderheijden86/b9s.git && cd b9s && make install`.
 
 b9s makes every write through the Beads `bd` command, and reads embedded Dolt projects through it too, so `bd` must be on your `PATH`. **b9s is tested with bd 1.2.2 through 1.3.0.** A newer bd usually works. [docs/testing.md](docs/testing.md#bd-releases) says how to check one.
 
