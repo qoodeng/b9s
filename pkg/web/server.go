@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"mime"
 	"net/http"
 	"path"
 	"strings"
@@ -26,7 +27,8 @@ type Options struct {
 	// Writer runs bd. It is the TUI's writer, so both UIs send bd the same
 	// commands.
 	Writer *ui.IssueWriter
-	// Auth is nil only for a loopback server started with --no-token.
+	// Auth is nil only for a loopback server started with --no-token, or with
+	// Public.
 	Auth *Auth
 	// Projects lists the project sheet's rows, recent first, as the TUI
 	// header does. It is called on every request, so it may reread config.
@@ -119,7 +121,29 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.Set("Referrer-Policy", "no-referrer")
 	h.Set("X-Frame-Options", "DENY")
 	h.Set("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+	if s.opts.Auth == nil && !s.opts.Public && !s.localRequest(w, r) {
+		return
+	}
 	s.mux.ServeHTTP(w, r)
+}
+
+// localRequest guards --no-token, which has no session or CSRF value to stand
+// on (ADR 0066). The Host check stops DNS rebinding and a proxy such as
+// tailscale serve, and requiring JSON makes a cross-site POST preflight, which
+// this server never answers. It writes the refusal itself.
+func (s *Server) localRequest(w http.ResponseWriter, r *http.Request) bool {
+	if !IsLoopbackAddr(r.Host) {
+		writeError(w, http.StatusForbidden, "--no-token serves loopback addresses only: pair this browser instead")
+		return false
+	}
+	if r.Method != http.MethodGet && r.Method != http.MethodHead {
+		mediaType, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
+		if err != nil || mediaType != "application/json" {
+			writeError(w, http.StatusUnsupportedMediaType, "requests must be application/json")
+			return false
+		}
+	}
+	return true
 }
 
 func (s *Server) routes() {

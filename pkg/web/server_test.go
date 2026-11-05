@@ -655,3 +655,53 @@ func TestReloadKeepsIssuesWhenOnlyCommentsFail(t *testing.T) {
 		t.Fatalf("health = %+v, want the comments failure reported", h)
 	}
 }
+
+// Without pairing, nothing proves a request came from this machine: a web page
+// can rebind its name to 127.0.0.1, and tailscale serve proxies from loopback.
+func TestNoTokenServerAnswersOnlyLoopbackHosts(t *testing.T) {
+	ts := newTestServer(t, nil, nil)
+	for host, want := range map[string]int{
+		"evil.example":        http.StatusForbidden,
+		"laptop.tail1.ts.net": http.StatusForbidden,
+		"127.0.0.1.nip.io":    http.StatusForbidden,
+		"localhost:7979":      http.StatusOK,
+		"127.0.0.1:7979":      http.StatusOK,
+		"[::1]:7979":          http.StatusOK,
+		"[::1]":               http.StatusOK,
+	} {
+		req, err := http.NewRequest(http.MethodGet, ts.URL+"/api/health", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		req.Host = host
+		resp, err := ts.Client().Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		resp.Body.Close()
+		if resp.StatusCode != want {
+			t.Errorf("Host %q: %d, want %d", host, resp.StatusCode, want)
+		}
+	}
+}
+
+// A cross-site form or no-cors fetch can POST text/plain without a preflight,
+// and only JSON makes the browser ask first.
+func TestNoTokenServerRefusesWritesThatAreNotJSON(t *testing.T) {
+	writer, log := fakeBd(t)
+	ts := newTestServer(t, nil, writer)
+	body := `{"op":"close","ids":["t-1"]}`
+
+	resp, err := ts.Client().Post(ts.URL+"/api/write", "text/plain", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+
+	if resp.StatusCode != http.StatusUnsupportedMediaType {
+		t.Errorf("text/plain write: %d, want 415", resp.StatusCode)
+	}
+	if calls := bdCalls(t, log); len(calls) != 0 {
+		t.Errorf("bd ran for a refused write: %q", calls)
+	}
+}

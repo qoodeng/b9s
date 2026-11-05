@@ -53,7 +53,7 @@ esac
 func getMemoryGraph(t *testing.T, server *Server) MemoryGraphResponse {
 	t.Helper()
 	w := httptest.NewRecorder()
-	server.ServeHTTP(w, httptest.NewRequest("GET", "/api/memory-graph", nil))
+	server.ServeHTTP(w, httptest.NewRequest("GET", "http://127.0.0.1/api/memory-graph", nil))
 	var graph MemoryGraphResponse
 	if err := json.Unmarshal(w.Body.Bytes(), &graph); err != nil {
 		t.Fatal(err)
@@ -307,7 +307,7 @@ func TestMemoryGraphEndpointExplainsWhyThereIsNoGraph(t *testing.T) {
 				t.Fatal(err)
 			}
 			w := httptest.NewRecorder()
-			server.ServeHTTP(w, httptest.NewRequest("GET", "/api/memory-graph", nil))
+			server.ServeHTTP(w, httptest.NewRequest("GET", "http://127.0.0.1/api/memory-graph", nil))
 			var graph MemoryGraphResponse
 			if err := json.Unmarshal(w.Body.Bytes(), &graph); err != nil {
 				t.Fatal(err)

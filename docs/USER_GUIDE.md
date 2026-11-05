@@ -815,7 +815,7 @@ Every browser pairs once, by opening the link `b9s web` printed at start. The li
 |--------|--------|
 | `--listen <addr>` | Address to serve on, default `127.0.0.1:7979`. Anything but loopback needs pairing |
 | `--new-token` | Replace the pairing secret, which unpairs every browser |
-| `--no-token` | Serve without pairing, loopback only |
+| `--no-token` | Serve without pairing, to `localhost` and loopback addresses only. Requests through a proxy such as `tailscale serve` are refused |
 | `--filter '<query>'` | Open browsers with this [query](#search) applied |
 | `--dev-assets <dir>` | Serve the web UI from `dir` and reload open browsers when it changes. Loopback only, for development with `make web-dev` |
 | `--debug` | Write a debug log to `.b9s/debug.log` |

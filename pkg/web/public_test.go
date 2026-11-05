@@ -134,3 +134,20 @@ func TestEventStreamsAreCapped(t *testing.T) {
 		t.Fatalf("second stream: %d, want 503", second.StatusCode)
 	}
 }
+
+func TestPublicServerAnswersAnyHost(t *testing.T) {
+	ts := newPublicServer(t, Options{})
+	req, err := http.NewRequest(http.MethodGet, ts.URL+"/api/health", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Host = "demo.example"
+	resp, err := ts.Client().Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("public server behind a proxy: %d, want 200", resp.StatusCode)
+	}
+}
