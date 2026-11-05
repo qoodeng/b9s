@@ -597,6 +597,7 @@ Opening a graph workspace with plain `b9s` loads its Issues from the workspace's
 | `:chore` | `:chores` | Show only chores |
 | `:issues` | `:all` | Show every type again |
 | `:project` | `:projects`, `:proj` | List the databases on the Dolt server |
+| `:forget <number>` | | Forget the recent project on header key `1`-`9` |
 | `:mouse` | | Hand the mouse to the terminal, or take it back |
 | `:layout` | | Stack the detail pane below the tree, or put it back to the right |
 | `:wrap` | | Wrap long titles onto extra lines, or truncate them again, as `v` does |
@@ -641,6 +642,17 @@ The header lists the project b9s started in and up to nine projects you opened r
 When matching by checkout path, b9s resolves symbolic links so a linked folder and its target share one recent slot and header row. If the path cannot be resolved, b9s compares cleaned paths, so a missing folder keeps its identity.
 
 `:project` lists the Beads databases that the startup project's Dolt user can read. Move with `j` and `k` and press `Enter` to open one. A database without a local checkout opens read-only, because writes run `bd` inside a checkout. See [ADR 0007](adr/0007-read-shared-beads-through-one-select-only-catalog-account.md).
+
+To forget a recent project, type `:forget 2` with its current header number.
+This removes the entry from `recent_projects` and the header, then renumbers
+the remaining rows. It does not change the project's files or database.
+The command works while that project's server is unreachable, so later header
+count refreshes do not wait for it. A count refresh already running can still
+finish. Switch to another project before forgetting the active project.
+`lock_recent: true` prevents forgetting. The save preserves other settings and
+their YAML comments, and keeps entries another window added. Another open
+window can save its own copy of the forgotten entry again. Opening the project
+again also adds it to the recent list.
 
 b9s loads a project before it replaces the one on screen. While it loads, the status line shows `Opening <name>…` and `Esc` cancels. If the project cannot be opened, you stay where you were and a popup names the reason:
 

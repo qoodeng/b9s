@@ -4831,7 +4831,7 @@ func (m *Model) renderHelpOverlay() string {
 		shortcuts   []struct{ key, desc string }
 	}{
 		{"Hotkeys", "⚙️", 3, m.hotkeyHelpRows()},
-		{"Global", "🌐", 2, commonKeyHelp()},
+		{"Global", "🌐", 2, append(commonKeyHelp(), struct{ key, desc string }{":forget N", "Forget recent project N"})},
 		{"Tree View", "🌳", 4, viewKeyHelp(focusTree)},
 		{"Board View", "🧭", 0, viewKeyHelp(focusBoard)},
 		{"Graph View", "🔍", 3, viewKeyHelp(focusGraph)},

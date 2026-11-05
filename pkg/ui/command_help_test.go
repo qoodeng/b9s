@@ -16,4 +16,7 @@ func TestHelpOverlayListsCommandPrompt(t *testing.T) {
 	if !strings.Contains(help, "Command prompt") {
 		t.Errorf("help overlay does not list the ':' command prompt:\n%s", help)
 	}
+	if !strings.Contains(help, ":forget N") {
+		t.Errorf("help overlay does not list :forget:\n%s", help)
+	}
 }
