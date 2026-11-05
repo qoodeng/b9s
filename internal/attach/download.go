@@ -12,8 +12,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/blobstore"
 )
 
 // DownloadMode selects the permission bits Download requests when it

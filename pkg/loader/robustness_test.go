@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/loader"
 )
 
 func TestLoadIssuesRobustness(t *testing.T) {

@@ -10,7 +10,7 @@ set -eu
 : "${B9S_DEMO_RESET_SECONDS:=1800}"
 : "${B9S_DEMO_LISTEN:=:7979}"
 : "${B9S_DEMO_BANNER:=Live demo · edits reset every 30 min}"
-: "${B9S_DEMO_BANNER_LINK:=https://github.com/vanderheijden86/b9s}"
+: "${B9S_DEMO_BANNER_LINK:=https://github.com/qoodeng/b9s}"
 
 case "$B9S_DEMO_PREFIX$B9S_DEMO_NAME" in
   *[!A-Za-z0-9_-]*|'') printf 'invalid B9S_DEMO_PREFIX or B9S_DEMO_NAME\n' >&2; exit 1 ;;

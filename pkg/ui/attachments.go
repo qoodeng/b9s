@@ -17,11 +17,11 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/vanderheijden86/b9s/internal/attach"
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/internal/attach"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 // AttachmentPickerModel lists one issue's attachments for the R key

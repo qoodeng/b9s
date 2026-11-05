@@ -8,7 +8,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // Epic lanes (docs/adr/0018, compacted by docs/adr/0030). The board is cut into one horizontal lane per

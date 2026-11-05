@@ -10,7 +10,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/x/ansi"
-	"github.com/vanderheijden86/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/internal/datasource"
 )
 
 const memScope = "http://example.test/poc/"

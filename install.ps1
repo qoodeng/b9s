@@ -6,7 +6,7 @@
     Builds and installs b9s from source using Go.
     Pre-built Windows binaries are not yet available, so Go 1.26+ is required.
 .EXAMPLE
-    irm https://raw.githubusercontent.com/vanderheijden86/b9s/main/install.ps1 | iex
+    irm https://raw.githubusercontent.com/qoodeng/b9s/main/install.ps1 | iex
 #>
 
 [CmdletBinding()]
@@ -15,7 +15,7 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$REPO = "github.com/vanderheijden86/b9s"
+$REPO = "github.com/qoodeng/b9s"
 $BIN_NAME = "b9s"
 $MIN_GO_VERSION = "1.26"
 

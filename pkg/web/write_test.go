@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/ui"
 )
 
 // fakeBd puts a bd on PATH that logs one line per call ("dir|args") and

@@ -9,7 +9,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/go-sql-driver/mysql"
 
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 // projectTableModel is a sized model whose startup project connects to the

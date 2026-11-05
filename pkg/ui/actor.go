@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/vanderheijden86/b9s/pkg/identity"
+	"github.com/qoodeng/b9s/pkg/identity"
 	"os"
 	"os/exec"
 	"strings"

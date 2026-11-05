@@ -1,6 +1,6 @@
 package ui
 
-import "github.com/vanderheijden86/b9s/pkg/model"
+import "github.com/qoodeng/b9s/pkg/model"
 
 // A board cell shows the parent-child hierarchy of its cards: a card sits
 // directly below its parent and is indented one level further, so a feature

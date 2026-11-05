@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/attachref"
 )
 
 func TestAttachmentsStockBDLocalBackendE2E(t *testing.T) {

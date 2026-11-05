@@ -3,8 +3,8 @@ package ui
 import (
 	"testing"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/identity"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/identity"
 )
 
 func doltModel(db string) Model {

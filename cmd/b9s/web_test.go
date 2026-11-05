@@ -14,10 +14,10 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
-	"github.com/vanderheijden86/b9s/pkg/ui"
-	"github.com/vanderheijden86/b9s/pkg/web"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/web"
 )
 
 func TestWebDoltDiscoveryAddsRuntimeDatabase(t *testing.T) {

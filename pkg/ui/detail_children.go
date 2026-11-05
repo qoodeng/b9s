@@ -3,7 +3,7 @@ package ui
 import (
 	"fmt"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // The detail pane numbers an issue's first nine children. With the detail

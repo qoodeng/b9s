@@ -50,7 +50,7 @@ func TestPerformUpdateExecutableLocation(t *testing.T) {
 		_, err = PerformUpdate(&Release{TagName: "v99.0.0"}, true)
 		if os.Getenv("B9S_TEST_UPDATE_BUNDLE") == "1" {
 			if err == nil || !strings.Contains(err.Error(), "DMG") ||
-				!strings.Contains(err.Error(), "https://github.com/vanderheijden86/b9s/releases/latest") {
+				!strings.Contains(err.Error(), "https://github.com/qoodeng/b9s/releases/latest") {
 				t.Fatalf("bundled updater must direct users to download the DMG, got %v", err)
 			}
 		} else if err == nil || !strings.Contains(err.Error(), "no binary available") {

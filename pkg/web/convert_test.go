@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // The board's epic cell reads the summary and due date from a snapshot,

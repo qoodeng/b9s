@@ -17,11 +17,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/version"
+	"github.com/qoodeng/b9s/pkg/version"
 )
 
 const (
-	repoOwner              = "vanderheijden86"
+	repoOwner              = "qoodeng"
 	repoName               = "b9s"
 	baseURL                = "https://api.github.com/repos/" + repoOwner + "/" + repoName
 	maxExtractedBinarySize = 256 << 20
@@ -553,7 +553,7 @@ func GetSelfUpdateBinaryPath() (string, error) {
 		return "", fmt.Errorf("cannot determine binary path: %w", err)
 	}
 	if isInsideAppBundle(binaryPath) {
-		return "", fmt.Errorf("cannot update b9s inside an app bundle without breaking its code signature; download the new DMG from https://github.com/vanderheijden86/b9s/releases/latest")
+		return "", fmt.Errorf("cannot update b9s inside an app bundle without breaking its code signature; download the new DMG from https://github.com/qoodeng/b9s/releases/latest")
 	}
 	return binaryPath, nil
 }

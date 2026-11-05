@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // Edge kinds of a MemoryGraph. The preview stores Link types as scope URLs;

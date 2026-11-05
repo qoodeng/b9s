@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/bdrun"
-	"github.com/vanderheijden86/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/internal/bdrun"
+	"github.com/qoodeng/b9s/pkg/debug"
 )
 
 // ErrBDNotGraphPreview identifies missing commands, independent of release names.

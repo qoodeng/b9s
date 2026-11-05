@@ -16,8 +16,8 @@ builds:
       - -trimpath
     ldflags:
       - -s -w
-      - -X github.com/vanderheijden86/b9s/pkg/version.Version=v{{.Version}}
-      - -X github.com/vanderheijden86/b9s/pkg/version.Commit={{.FullCommit}}
+      - -X github.com/qoodeng/b9s/pkg/version.Version=v{{.Version}}
+      - -X github.com/qoodeng/b9s/pkg/version.Commit={{.FullCommit}}
     goos:
       - linux
       - darwin
@@ -44,9 +44,9 @@ nfpms:
       {{- .Version }}_
       {{- .Os }}_
       {{- .Arch }}
-    vendor: vanderheijden86
-    homepage: https://github.com/vanderheijden86/b9s
-    maintainer: vanderheijden86 <vanderheijden86@users.noreply.github.com>
+    vendor: qoodeng
+    homepage: https://github.com/qoodeng/b9s
+    maintainer: qoodeng <qoodeng@users.noreply.github.com>
     description: "Fast, focused TUI viewer and editor for beads projects"
     license: MIT
     formats:
@@ -82,14 +82,14 @@ changelog:
 brews:
   - name: b9s
     repository:
-      owner: vanderheijden86
+      owner: qoodeng
       name: homebrew-tap
       branch: main
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
     # brew has no prerelease channel: a release candidate never reaches the tap.
     skip_upload: auto
     directory: Formula
-    homepage: https://github.com/vanderheijden86/b9s
+    homepage: https://github.com/qoodeng/b9s
     description: "Fast, focused TUI viewer and editor for beads projects"
     license: "MIT"
     install: |

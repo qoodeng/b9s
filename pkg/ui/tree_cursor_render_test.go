@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // cursorRenderIssues mirrors a sprint board: two epics, each with features

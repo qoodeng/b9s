@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 func TestChain(t *testing.T) {

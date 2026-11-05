@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // MultiDoltReader loads issues from multiple Dolt databases on the same server.

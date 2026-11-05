@@ -33,7 +33,7 @@ bakes another sample in; set `B9S_DEMO_PREFIX` and `B9S_DEMO_NAME` to match it.
 | `B9S_DEMO_NAME` | `webshop` | Project name shown in the header |
 | `B9S_DEMO_RESET_SECONDS` | `1800` | Reset period; resets land on multiples of it |
 | `B9S_DEMO_BANNER` | `Live demo · edits reset every 30 min` | The line above the board |
-| `B9S_DEMO_BANNER_LINK` | `https://github.com/vanderheijden86/b9s` | Where the banner links |
+| `B9S_DEMO_BANNER_LINK` | `https://github.com/qoodeng/b9s` | Where the banner links |
 | `/data` | | Writable; everything else can be read-only |
 | `:7979` | | `b9s web --public` |
 

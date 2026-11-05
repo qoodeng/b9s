@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 func TestFilterByRepo_CaseInsensitiveAndFlexibleSeparators(t *testing.T) {

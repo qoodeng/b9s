@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 func newPublicServer(t *testing.T, opts Options) *testServer {

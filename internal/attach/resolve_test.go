@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/attachref"
 )
 
 func attachment(sha256, name string) attachref.Attachment {

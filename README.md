@@ -1,9 +1,11 @@
 # b9s
 
-![Go Version](https://img.shields.io/github/go-mod/go-version/vanderheijden86/b9s?style=for-the-badge&color=6272a4)
+![Go Version](https://img.shields.io/github/go-mod/go-version/qoodeng/b9s?style=for-the-badge&color=6272a4)
 ![License](https://img.shields.io/badge/License-MIT-50fa7b?style=for-the-badge)
-[![CI](https://img.shields.io/github/actions/workflow/status/vanderheijden86/b9s/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/vanderheijden86/b9s/actions/workflows/ci.yml)
-[![Nightly](https://img.shields.io/github/actions/workflow/status/vanderheijden86/b9s/nightly.yml?branch=main&style=for-the-badge&label=Nightly)](https://github.com/vanderheijden86/b9s/actions/workflows/nightly.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/qoodeng/b9s/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/qoodeng/b9s/actions/workflows/ci.yml)
+[![Nightly](https://img.shields.io/github/actions/workflow/status/qoodeng/b9s/nightly.yml?branch=main&style=for-the-badge&label=Nightly)](https://github.com/qoodeng/b9s/actions/workflows/nightly.yml)
+
+*A hard fork of [vanderheijden86/b9s](https://github.com/vanderheijden86/b9s), maintained independently. See [LICENSE](LICENSE) for the original copyright.*
 
 **See what every agent is doing in your [Beads](https://github.com/steveyegge/beads) project, and change it, from your terminal, your phone or any browser.** b9s shows the issues as a tree, a board and a dependency graph, follows changes from `bd` or another agent as they happen, and makes every write through the `bd` CLI. No new tracker: your Beads project as it is.
 
@@ -32,29 +34,27 @@ What it is not: b9s is not a tracker and stores nothing of its own. It reads you
 With Homebrew on macOS or Linux:
 
 ```bash
-brew install vanderheijden86/tap/b9s
+brew install qoodeng/tap/b9s
 ```
 
 On Linux or macOS without Homebrew, the install script downloads the release binary for your platform, checks it against the release checksums and puts it in `~/.local/bin`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/vanderheijden86/b9s/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/qoodeng/b9s/main/install.sh | bash
 ```
 
 Set `INSTALL_DIR` to choose another directory. On a platform without a release binary, the script builds from source instead. After that, `b9s --update` installs new releases.
 
-On Debian, Ubuntu, Fedora or RHEL, each [release](https://github.com/vanderheijden86/b9s/releases/latest) also carries `.deb` and `.rpm` packages for amd64 and arm64:
+On Debian, Ubuntu, Fedora or RHEL, each [release](https://github.com/qoodeng/b9s/releases/latest) also carries `.deb` and `.rpm` packages for amd64 and arm64:
 
 ```bash
 sudo dpkg -i b9s_<version>_linux_amd64.deb   # Debian, Ubuntu
 sudo rpm -i b9s_<version>_linux_amd64.rpm    # Fedora, RHEL
 ```
 
-From source, with [Go 1.26 or later](https://go.dev/dl/): `git clone https://github.com/vanderheijden86/b9s.git && cd b9s && make install`.
+From source, with [Go 1.26 or later](https://go.dev/dl/): `git clone https://github.com/qoodeng/b9s.git && cd b9s && make install`.
 
 b9s makes every write through the Beads `bd` command, and reads embedded Dolt projects through it too, so `bd` must be on your `PATH`. **b9s is tested with bd 1.2.2 through 1.3.0.** A newer bd usually works. [docs/testing.md](docs/testing.md#bd-releases) says how to check one.
-
-**Tried it?** Tell me what worked and what did not in the [feedback thread](https://github.com/vanderheijden86/b9s/discussions/12). To get an email when a release ships, use Watch → Custom → Releases on the repository.
 
 ## First five minutes
 
@@ -77,7 +77,7 @@ No Beads project at hand? Download the [sample project](examples/sample-project/
 ```bash
 mkdir -p b9s-sample/.beads && cd b9s-sample
 curl -fsSL -o .beads/issues.jsonl \
-  https://raw.githubusercontent.com/vanderheijden86/b9s/main/examples/sample-project/.beads/issues.jsonl
+  https://raw.githubusercontent.com/qoodeng/b9s/main/examples/sample-project/.beads/issues.jsonl
 b9s
 ```
 
@@ -165,7 +165,7 @@ The web UI lives in `web/` (TypeScript, no framework) and builds into `pkg/web/d
 
 Pull requests are welcome. To keep review quick:
 
-1. **Open an [issue](https://github.com/vanderheijden86/b9s/issues) first** for anything beyond a typo or a small bug fix. Agree on the change there before you write code, so no work is wasted on a change that will not be merged.
+1. **Open an [issue](https://github.com/qoodeng/b9s/issues) first** for anything beyond a typo or a small bug fix. Agree on the change there before you write code, so no work is wasted on a change that will not be merged.
 2. **Keep one change per pull request.** A small, focused diff is reviewed sooner than a large one.
 3. **Include tests.** A bug fix comes with a test that fails before the fix. `go test ./... -skip DoltIntegration` must pass, and code must be `gofmt`-formatted. Tests never write to a shared Dolt server (see [Development](#development)).
 4. **Update the docs** that your change affects: the [user guide](docs/USER_GUIDE.md) for a new key or setting, [docs/](docs/) for new behaviour. The README stays a front page; a test keeps it under 300 lines. A change that goes against a [decision record](docs/adr/) needs a new decision record, not a quiet exception.

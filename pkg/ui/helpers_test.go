@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/ui"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/ui"
 )
 
 // TestTruncateRunesHelper tests UTF-8 safe truncation

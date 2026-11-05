@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // parseJSONL is a small test helper to parse issues from JSONL data.

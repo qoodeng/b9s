@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/identity"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/identity"
+	"github.com/qoodeng/b9s/pkg/model"
 
 	"github.com/charmbracelet/lipgloss"
 )

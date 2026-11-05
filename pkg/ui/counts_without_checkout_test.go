@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 // chdirIntoProjectWithOpenIssue makes the working directory a checkout whose

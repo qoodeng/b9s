@@ -262,7 +262,7 @@ func TestReleaseConfigurationPinsActionsAndEmitsProvenance(t *testing.T) {
 	if !strings.Contains(configText, "-trimpath") {
 		t.Fatal("GoReleaser build does not remove local build paths")
 	}
-	if !strings.Contains(configText, "https://github.com/vanderheijden86/b9s") {
+	if !strings.Contains(configText, "https://github.com/qoodeng/b9s") {
 		t.Fatal("GoReleaser metadata still points at the old repository identity")
 	}
 	// The release embeds the committed pkg/web/dist. The hook stops a
@@ -426,7 +426,7 @@ func TestInstallersUseCurrentIdentityAndRequireChecksums(t *testing.T) {
 	}
 
 	shellText := string(installShell)
-	for _, required := range []string{`REPO_OWNER="vanderheijden86"`, `BIN_NAME="b9s"`, "checksums.txt", "verify_checksum"} {
+	for _, required := range []string{`REPO_OWNER="qoodeng"`, `BIN_NAME="b9s"`, "checksums.txt", "verify_checksum"} {
 		if !strings.Contains(shellText, required) {
 			t.Fatalf("install.sh missing %q", required)
 		}

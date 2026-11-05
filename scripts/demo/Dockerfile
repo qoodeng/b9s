@@ -10,7 +10,7 @@ COPY . .
 # reports a development version and offers an update.
 ARG VERSION=dev
 RUN CGO_ENABLED=1 go build -mod=vendor \
-    -ldflags "-s -w -X github.com/vanderheijden86/b9s/pkg/version.Version=${VERSION}" \
+    -ldflags "-s -w -X github.com/qoodeng/b9s/pkg/version.Version=${VERSION}" \
     -o /out/b9s ./cmd/b9s
 
 # Built here, as in scripts/web, because the published bd is linked against glibc.

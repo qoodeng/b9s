@@ -19,10 +19,10 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	dbg "github.com/vanderheijden86/b9s/pkg/debug"
-	"github.com/vanderheijden86/b9s/pkg/loader"
-	"github.com/vanderheijden86/b9s/pkg/model"
-	"github.com/vanderheijden86/b9s/pkg/watcher"
+	dbg "github.com/qoodeng/b9s/pkg/debug"
+	"github.com/qoodeng/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/model"
+	"github.com/qoodeng/b9s/pkg/watcher"
 )
 
 // WorkerState represents the current state of the background worker.

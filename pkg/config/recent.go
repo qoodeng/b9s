@@ -9,7 +9,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/vanderheijden86/b9s/internal/datasource"
+	"github.com/qoodeng/b9s/internal/datasource"
 )
 
 // MaxRecentProjects caps the recent list so every entry has a number key (1-9).

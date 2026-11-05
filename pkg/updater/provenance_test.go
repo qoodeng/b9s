@@ -15,6 +15,10 @@ import (
 // tests exercise real signatures without network access.
 const v120DarwinArm64Digest = "0e097c35aa381965dacb2d8deb9d1c4c842e2f2008d38d1b1fce178734fb7946"
 
+// fixtureWorkflowIDFmt is the workflow that signed the fixture: the release
+// workflow of the project this one forked from.
+const fixtureWorkflowIDFmt = "https://github.com/vanderheijden86/b9s/.github/workflows/release.yml@refs/tags/%s"
+
 func provenanceFixtures(t *testing.T) (string, root.TrustedMaterial) {
 	t.Helper()
 	dir := filepath.Join("testdata", "provenance")
@@ -36,22 +40,30 @@ func mustDigest(t *testing.T, s string) []byte {
 
 func TestVerifyProvenanceAcceptsGenuineReleaseArchive(t *testing.T) {
 	bundlePath, trusted := provenanceFixtures(t)
-	if err := verifyProvenance(bundlePath, mustDigest(t, v120DarwinArm64Digest), "v1.2.0", trusted); err != nil {
+	if err := verifyProvenanceFrom(fixtureWorkflowIDFmt, bundlePath, mustDigest(t, v120DarwinArm64Digest), "v1.2.0", trusted); err != nil {
 		t.Fatalf("genuine v1.2.0 archive rejected: %v", err)
+	}
+}
+
+func TestVerifyProvenanceRejectsAReleaseFromAnotherRepository(t *testing.T) {
+	bundlePath, trusted := provenanceFixtures(t)
+	err := verifyProvenance(bundlePath, mustDigest(t, v120DarwinArm64Digest), "v1.2.0", trusted)
+	if err == nil || !strings.Contains(err.Error(), "CertificateIdentity") {
+		t.Fatalf("release signed by another repository: err = %v, want an identity failure", err)
 	}
 }
 
 func TestVerifyProvenanceRejectsArchiveTheBundleDoesNotName(t *testing.T) {
 	bundlePath, trusted := provenanceFixtures(t)
 	tampered := strings.Repeat("ab", 32)
-	if err := verifyProvenance(bundlePath, mustDigest(t, tampered), "v1.2.0", trusted); err == nil {
+	if err := verifyProvenanceFrom(fixtureWorkflowIDFmt, bundlePath, mustDigest(t, tampered), "v1.2.0", trusted); err == nil {
 		t.Fatal("archive with a digest outside the attestation was accepted")
 	}
 }
 
 func TestVerifyProvenanceRejectsBundleSignedForAnotherTag(t *testing.T) {
 	bundlePath, trusted := provenanceFixtures(t)
-	if err := verifyProvenance(bundlePath, mustDigest(t, v120DarwinArm64Digest), "v1.3.0", trusted); err == nil {
+	if err := verifyProvenanceFrom(fixtureWorkflowIDFmt, bundlePath, mustDigest(t, v120DarwinArm64Digest), "v1.3.0", trusted); err == nil {
 		t.Fatal("v1.2.0 attestation accepted for tag v1.3.0")
 	}
 }

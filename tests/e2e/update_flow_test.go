@@ -21,7 +21,7 @@ func TestVersionFlag_ReleaseBuildPrintsLinkerVersion(t *testing.T) {
 	bv := buildReleaseBinary(t, "v9.9.9", releaseCommit)
 
 	want := "b9s v9.9.9 (01234567)\n" +
-		"commit https://github.com/vanderheijden86/b9s/commit/" + releaseCommit + "\n"
+		"commit https://github.com/qoodeng/b9s/commit/" + releaseCommit + "\n"
 	if got := versionOutput(t, bv); got != want {
 		t.Errorf("--version = %q, want %q", got, want)
 	}
@@ -49,7 +49,7 @@ func TestVersionFlag_PlainBuildPrintsDevAndCommit(t *testing.T) {
 	if v := m[1]; !devVersion.MatchString(v) && !commitHasTag(t, commit, strings.TrimSuffix(v, "+dirty")) {
 		t.Errorf("plain build calls itself %q, want dev or dev after vX.Y.Z: commit %s carries no such tag", v, commit[:8])
 	}
-	wantCommit := "commit https://github.com/vanderheijden86/b9s/commit/" + commit
+	wantCommit := "commit https://github.com/qoodeng/b9s/commit/" + commit
 	if len(lines) != 2 || lines[1] != wantCommit {
 		t.Errorf("--version lines = %q, want the second to be %q", lines, wantCommit)
 	}
@@ -63,8 +63,8 @@ func buildReleaseBinary(t *testing.T, version, commit string) string {
 	if runtime.GOOS == "windows" {
 		bin += ".exe"
 	}
-	ldflags := "-X github.com/vanderheijden86/b9s/pkg/version.Version=" + version +
-		" -X github.com/vanderheijden86/b9s/pkg/version.Commit=" + commit
+	ldflags := "-X github.com/qoodeng/b9s/pkg/version.Version=" + version +
+		" -X github.com/qoodeng/b9s/pkg/version.Commit=" + commit
 	cmd := exec.Command("go", "build", "-ldflags", ldflags, "-o", bin, "../../cmd/b9s")
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("go build failed: %v\n%s", err, out)

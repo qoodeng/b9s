@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
-	"github.com/vanderheijden86/b9s/internal/blobstore"
-	"github.com/vanderheijden86/b9s/pkg/model"
+	"github.com/qoodeng/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/blobstore"
+	"github.com/qoodeng/b9s/pkg/model"
 )
 
 // ErrEmptyReferencesRefused is returned by GC when Apply is set, the

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/config"
+	"github.com/qoodeng/b9s/pkg/config"
 )
 
 func TestWebEntrypointAttachmentSettings(t *testing.T) {

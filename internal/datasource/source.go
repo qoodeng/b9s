@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/loader"
+	"github.com/qoodeng/b9s/pkg/loader"
 )
 
 // SourceType identifies the type of data source

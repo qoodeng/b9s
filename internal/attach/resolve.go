@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/vanderheijden86/b9s/internal/attachref"
+	"github.com/qoodeng/b9s/internal/attachref"
 )
 
 // Resolve finds the one attachment query names: a full sha256, a unique

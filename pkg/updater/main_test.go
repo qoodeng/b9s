@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/vanderheijden86/b9s/pkg/version"
+	"github.com/qoodeng/b9s/pkg/version"
 )
 
 // A test binary carries no release version, so version.Version resolves to
