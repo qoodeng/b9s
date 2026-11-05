@@ -188,3 +188,65 @@ func TestRollback_NoBackup(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
+
+// A running binary cannot be opened for writing on Linux (ETXTBSY), and on
+// macOS rewriting it in place invalidates its code signature. The old file
+// stays intact for whoever holds it, which only a rename gives.
+func TestReplaceFileLeavesTheOpenFileIntact(t *testing.T) {
+	src := filepath.Join(t.TempDir(), "new")
+	if err := os.WriteFile(src, []byte("new build"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	dir := t.TempDir()
+	dst := filepath.Join(dir, "b9s")
+	if err := os.WriteFile(dst, []byte("old build"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	running, err := os.Open(dst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer running.Close()
+
+	if err := replaceFile(src, dst); err != nil {
+		t.Fatalf("replaceFile: %v", err)
+	}
+
+	held := make([]byte, len("old build"))
+	if _, err := running.ReadAt(held, 0); err != nil {
+		t.Fatal(err)
+	}
+	if string(held) != "old build" {
+		t.Errorf("the open file now reads %q, want it untouched", held)
+	}
+	got, err := os.ReadFile(dst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(got) != "new build" {
+		t.Errorf("destination = %q, want the new build", got)
+	}
+	info, err := os.Stat(dst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if info.Mode().Perm() != 0o755 {
+		t.Errorf("destination mode = %v, want 0755", info.Mode().Perm())
+	}
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 1 {
+		t.Errorf("directory holds %d entries, want only the binary", len(entries))
+	}
+}
+
+func TestReleaseIsNewerComparesTheFetchedTag(t *testing.T) {
+	if !ReleaseIsNewer(&Release{TagName: "v1.0.1"}) {
+		t.Error("v1.0.1 is newer than the running v1.0.0")
+	}
+	if ReleaseIsNewer(&Release{TagName: "v1.0.0"}) {
+		t.Error("the running version is not newer than itself")
+	}
+}

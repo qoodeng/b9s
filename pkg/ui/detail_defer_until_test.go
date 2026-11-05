@@ -49,7 +49,7 @@ func TestDetailOmitsUnsetSchedulingDates(t *testing.T) {
 }
 
 func TestFormatIssueMarkdownShowsDeferUntil(t *testing.T) {
-	until := time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC)
+	until := time.Date(2026, 10, 1, 12, 0, 0, 0, time.Local)
 	issue := model.Issue{ID: "x-1", Title: "t", Status: model.StatusDeferred, DeferUntil: &until}
 
 	md := formatIssueMarkdown(issue, nil)

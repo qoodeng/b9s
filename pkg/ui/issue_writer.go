@@ -134,7 +134,7 @@ func (w *IssueWriter) CloseIssueWithComment(id, comment string) tea.Cmd {
 // closes them all. The close runs only once every comment has landed, so a
 // failure leaves every issue open. An empty comment closes without one.
 func (w *IssueWriter) CloseIssuesWithComment(ids []string, comment string) tea.Cmd {
-	closeIssues := w.CloseIssues(ids)
+	closeIssues := w.CloseIssues(ids, "")
 	if len(ids) == 1 {
 		closeIssues = w.CloseIssue(ids[0], "")
 	}
@@ -165,9 +165,14 @@ func (w *IssueWriter) DeleteIssue(id string) tea.Cmd {
 	return w.runBdCmd(BdOpDelete, id, args)
 }
 
-// CloseIssues closes every id with a single bd close invocation.
-func (w *IssueWriter) CloseIssues(ids []string) tea.Cmd {
-	return w.runBatch(BdOpClose, ids, append([]string{"close"}, ids...))
+// CloseIssues closes every id with a single bd close invocation, which applies
+// one reason to all of them. An empty reason closes without one.
+func (w *IssueWriter) CloseIssues(ids []string, reason string) tea.Cmd {
+	args := append([]string{"close"}, ids...)
+	if reason != "" {
+		args = append(args, fmt.Sprintf("--reason=%s", reason))
+	}
+	return w.runBatch(BdOpClose, ids, args)
 }
 
 // DeleteIssues deletes every id with a single bd delete --force invocation.

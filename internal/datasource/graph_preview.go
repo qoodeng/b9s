@@ -45,7 +45,7 @@ func ExplainMemoryFailure(err error) string {
 		category, hint = "Beads schema mismatch", "Use a bd binary compatible with this project's database schema."
 	case strings.Contains(detail, "connection refused"), strings.Contains(detail, "unreachable"), strings.Contains(detail, "no such host"):
 		category, hint = "Database unreachable", "Check the project's database connection or tunnel."
-	case errors.As(err, &syntax), strings.Contains(detail, "did not return graph preview"), strings.Contains(detail, "exceeds the CLI limit"):
+	case errors.As(err, &syntax), strings.Contains(detail, "did not return graph preview"), strings.Contains(detail, "exceeds the cli limit"):
 		category, hint = "Unsupported Memory response", "Check that bd returns a complete, compatible Memory graph."
 	}
 	return category + ": " + hint + "\nDetails: " + err.Error()

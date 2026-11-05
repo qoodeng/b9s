@@ -120,7 +120,10 @@ func TestAttachmentsStockBDLocalBackendE2E(t *testing.T) {
 		t.Fatalf("attachment PTY: %v\n%s", err, truncateOutput(string(out), 6000))
 	}
 	screen := stripTerminalCodes(out)
-	for _, want := range []string{"Attach Files", "1 attached", "ATTACHMENTS · 1", "added by attachment-e2e", "Attachments", name, "test mode: opener not run"} {
+	// The status line ends at the terminal edge, and the temporary path before
+	// "test mode" is long on macOS. "downloaded to" comes first and is only
+	// shown when the opener did not run.
+	for _, want := range []string{"Attach Files", "1 attached", "ATTACHMENTS · 1", "added by attachment-e2e", "Attachments", name, name + " downloaded to"} {
 		if !strings.Contains(screen, want) {
 			t.Fatalf("PTY lacks %q:\n%s", want, truncateOutput(screen, 9000))
 		}

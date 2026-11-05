@@ -182,6 +182,7 @@ func TestMemoryReadFailureCategories(t *testing.T) {
 		{errors.New("dial tcp: connection refused"), "Database unreachable", "connection"},
 		{context.DeadlineExceeded, "Read timed out", "retry"},
 		{errors.New("schema version mismatch"), "Beads schema mismatch", "compatible"},
+		{errors.New("graph preview exceeds the CLI limit"), "Unsupported Memory response", "complete"},
 		{errors.New("unexpected failure"), "Memory read failed", "details"},
 	} {
 		t.Run(tt.category, func(t *testing.T) {

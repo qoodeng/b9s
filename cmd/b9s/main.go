@@ -129,14 +129,13 @@ func main() {
 			os.Exit(1)
 		}
 
-		available, newVersion, _, _ := updater.CheckUpdateAvailable()
-		if !available {
+		if !updater.ReleaseIsNewer(release) {
 			fmt.Printf("b9s is already up to date (version %s)\n", version.Version)
 			os.Exit(0)
 		}
 
 		if !*yesFlag {
-			fmt.Printf("Update b9s from %s to %s? [Y/n]: ", version.Version, newVersion)
+			fmt.Printf("Update b9s from %s to %s? [Y/n]: ", version.Version, release.TagName)
 			var response string
 			fmt.Scanln(&response)
 			response = strings.ToLower(strings.TrimSpace(response))

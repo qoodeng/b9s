@@ -107,7 +107,7 @@ func TestBDContract_EveryWriteB9sMakes(t *testing.T) {
 	if got := contractIssue(t, projectDir, child); got.Status != model.StatusClosed {
 		t.Errorf("close with a reason: status %q, want closed", got.Status)
 	}
-	contractRun(t, "close many", w.CloseIssues([]string{other, byActor}))
+	contractRun(t, "close many", w.CloseIssues([]string{other, byActor}, "closed together"))
 	for _, id := range []string{other, byActor} {
 		if got := contractIssue(t, projectDir, id); got.Status != model.StatusClosed {
 			t.Errorf("close many: %s is %q, want closed", id, got.Status)

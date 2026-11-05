@@ -195,7 +195,7 @@ func closePlanWithReason(ids []string, reason string) writePlan {
 	if len(ids) == 1 {
 		return func(w *ui.IssueWriter) tea.Cmd { return w.CloseIssue(ids[0], reason) }
 	}
-	return func(w *ui.IssueWriter) tea.Cmd { return w.CloseIssues(ids) }
+	return func(w *ui.IssueWriter) tea.Cmd { return w.CloseIssues(ids, reason) }
 }
 
 func checkFields(fields map[string]string, allowed map[string]bool) (map[string]string, error) {

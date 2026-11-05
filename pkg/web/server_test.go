@@ -3,6 +3,7 @@ package web
 import (
 	"bufio"
 	"context"
+	"database/sql"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -620,5 +621,37 @@ func TestSnapshotLeavesOutLongTextThatIssueReturns(t *testing.T) {
 	}
 	if code := getJSON(t, &http.Client{Timeout: 5 * time.Second}, ts.URL+"/api/issue?id=t-5", nil); code != http.StatusUnauthorized && code != http.StatusForbidden {
 		t.Fatalf("unpaired issue read: %d", code)
+	}
+}
+
+// Comments failing leaves every other column loaded, so a reload must publish
+// the issues and report the failure, as the terminal does, not freeze the page.
+func TestReloadKeepsIssuesWhenOnlyCommentsFail(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "beads.db")
+	db, err := sql.Open("sqlite", path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	for _, stmt := range []string{
+		`CREATE TABLE issues (id TEXT, title TEXT, description TEXT, status TEXT, priority INT, issue_type TEXT, created_at DATETIME, updated_at DATETIME, tombstone INT)`,
+		`INSERT INTO issues VALUES ('t-1', 'one', '', 'open', 2, 'task', '2026-09-25 00:00:00', '2026-09-25 00:00:00', 0)`,
+		// No comments table: every comments query fails outright.
+	} {
+		if _, err := db.Exec(stmt); err != nil {
+			t.Fatal(err)
+		}
+	}
+	s := NewStore(0)
+	t.Cleanup(s.Close)
+	s.source = datasource.DataSource{Type: datasource.SourceTypeSQLite, Path: path}
+
+	s.Reload()
+
+	if issues, _ := s.Issues(); len(issues) != 1 {
+		t.Fatalf("issues = %+v, want t-1 despite the comments failure", issues)
+	}
+	if h := s.Health(true); h.OK || !strings.Contains(h.Error, "comments unavailable") {
+		t.Fatalf("health = %+v, want the comments failure reported", h)
 	}
 }

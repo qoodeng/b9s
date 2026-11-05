@@ -2358,7 +2358,7 @@ func (m Model) dispatchMsg(msg tea.Msg) (Model, tea.Cmd) {
 				switch confirmation.action {
 				case issueConfirmClose:
 					if len(confirmation.ids) > 0 {
-						return m, m.issueWriter.CloseIssues(confirmation.ids)
+						return m, m.issueWriter.CloseIssues(confirmation.ids, "")
 					}
 					return m, m.issueWriter.CloseIssue(confirmation.id, "")
 				case issueConfirmDelete:

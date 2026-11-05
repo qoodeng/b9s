@@ -91,3 +91,26 @@ func TestMultiDoltReader_LoadAllIssuesDropsGenuineFailure(t *testing.T) {
 		t.Fatalf("issues = %+v, want only healthy's issue; broken's database must still be dropped", issues)
 	}
 }
+
+// A load that reached no database has nothing to show, so it must fail rather
+// than report an empty project: callers keep the issues on screen on an error
+// and would otherwise replace them with nothing.
+func TestMultiDoltReader_LoadAllIssuesFailsWhenEveryDatabaseFails(t *testing.T) {
+	first := newFakeDoltDB(t, "first", true)
+	second := newFakeDoltDB(t, "second", true)
+	first.Close()
+	second.Close()
+	m := &MultiDoltReader{
+		readers: map[string]*DoltReader{"first": first, "second": second},
+		dbNames: []string{"first", "second"},
+	}
+
+	issues, err := m.LoadAllIssues()
+
+	if err == nil {
+		t.Fatalf("LoadAllIssues() = %+v, nil; want an error when every database failed", issues)
+	}
+	if errors.Is(err, ErrCommentsUnavailable) {
+		t.Fatalf("LoadAllIssues() err = %v, must not read as a comments-only failure", err)
+	}
+}

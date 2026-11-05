@@ -78,6 +78,7 @@ func TestWritesRunBdInTheCheckout(t *testing.T) {
 		{`{"op":"status","ids":["t-1","t-2"],"status":"open"}`, "update t-1 t-2 --status=open"},
 		{`{"op":"status","ids":["t-3"],"status":"closed","reason":"done"}`, "close t-3 --reason=done"},
 		{`{"op":"close","ids":["t-1","t-3"]}`, "close t-1 t-3"},
+		{`{"op":"close","ids":["t-1","t-3"],"reason":"dup"}`, "close t-1 t-3 --reason=dup"},
 		{`{"op":"delete","ids":["t-5"]}`, "delete t-5 --force"},
 		{`{"op":"update","ids":["t-2"],"fields":{"priority":"P1"}}`, "update t-2 --priority=1"},
 		{`{"op":"update","ids":["t-2"],"fields":{"title":"--status=closed"}}`, "update t-2 --title=--status=closed"},

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/vanderheijden86/b9s/pkg/debug"
@@ -96,7 +97,8 @@ func NewMultiDoltReader(dbs []DoltDBInfo) (*MultiDoltReader, error) {
 // issues in the merged result (the rest of the load is complete); its error
 // is joined into the returned error so the caller can show a note instead of
 // dropping the database entirely (bd-t8j5.18). A database that genuinely
-// failed to load is still dropped, as before.
+// failed to load is still dropped, as before, unless every database failed:
+// that load has nothing to show and returns an error.
 func (m *MultiDoltReader) LoadAllIssues() ([]model.Issue, error) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
@@ -142,6 +144,9 @@ func (m *MultiDoltReader) LoadAllIssues() ([]model.Issue, error) {
 	debug.Log("multi-dolt: total %d issues from %d databases (%d failures, %d comments errors)",
 		len(all), len(m.readers)-len(failures), len(failures), len(commentErrs))
 
+	if len(failures) > 0 && len(failures) == len(m.readers) {
+		return nil, fmt.Errorf("every database failed to load: %s", strings.Join(failures, "; "))
+	}
 	return all, errors.Join(commentErrs...)
 }
 
