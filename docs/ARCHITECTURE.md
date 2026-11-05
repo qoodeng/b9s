@@ -162,7 +162,9 @@ Every TUI instance serves `internal/control` on a unix socket in a 0700 state di
 3. Global keys: project digits, `L` and `A` pickers, `b` and `g` for the board and the graph, `e`, `K`, `Delete`, `Ctrl-N`, `Ctrl-E`, `?`, `:` and `/`.
 4. The focused pane: `handleTreeKeys`, `handleBoardKeys`, `handleGraphKeys` or the detail pane.
 
-A key that a global handler consumes never reaches a pane. `b` is the board everywhere, so the tree's bookmark on `b` is unreachable. Keys that fall into this trap are tracked in Beads rather than documented as features.
+A key that a global handler consumes never reaches a pane. `b` opens the board and `Alt-b` bookmarks a tree row. Board `g` and `0` reach board navigation before global view and project shortcuts. Active label and project filters own their text input before global shortcuts run. Table-driven routing tests exercise the keys advertised by help through `Model.Update`.
+
+The label picker records the focus of the pane that opened it and restores that focus on cancellation or acceptance. Applying a label from detail keeps the displayed issue, even if the filtered tree or board selects another row. Issue actions resolve the displayed issue while detail has focus. Tree marks apply only outside detail.
 
 The tree is always present. The board and the graph are overlays that `Esc` closes, and the detail pane sits beside the tree when the terminal is at least 100 columns wide, and over it otherwise. Each view owns its cursor and scroll state, and nothing else.
 
@@ -216,6 +218,8 @@ The header lists recent projects from `config.yaml`, not folders discovered by s
 
 A project switch is a small state machine in `project_switch.go`. While a project is `Opening`, the current one stays on screen and usable, and it is replaced only once the new one has loaded. A deadline of ten seconds bounds the wait, with the Dolt connect timeout of five seconds inside it. A failure keeps the old project and shows the `OpenReason`, a closed set that the CLI and the TUI share.
 
+Tree expansion, bookmarks and layout persist in the active project's `.beads/tree-state.json`, independently of whether a JSONL export exists. Startup passes the resolved beads directory, including `BEADS_DIR` overrides. A successful switch selects the destination's directory and clears the previous project's bookmarks and layout before loading destination state. A database opened without a checkout has no persistence directory and cannot write the previous project's state file.
+
 ## People and identities
 
 Each issue carries a fixed Creator (`created_by`, with the git email in `owner`) and a changing Assignee. The readers fill `CreatedBy` and `Owner` in `internal/datasource/creators.go`, and leave them empty on schemas without those columns.
@@ -253,6 +257,7 @@ The Dolt SQL login is a workspace credential shared by every agent, so it is sho
 - **Writes** (`write.go`) accept a closed set of operations, check them, and call `IssueWriter`. A failed `bd` answers 422 with its output. A write needs the session cookie and the `X-B9s-CSRF` header.
 - **Auth** (`auth.go`) derives the pairing token from a secret in the config folder, so a paired phone stays paired across restarts. See [ADR 0020](adr/0020-pair-every-browser-with-a-persistent-token.md).
 - **Hosted project discovery** (`--discover-dolt --projects-root`) refreshes readable databases from the startup server on project-list and project-open requests. `SHOW DATABASES` plus a bounded `issues` probe excludes non-Beads databases. New databases get local metadata for `bd` writes. Lost databases leave the sheet, while transient failures retain the last discovered list. Discovery uses the existing server and auth secret.
+- **Session recovery** (`web/src/api.ts`) refreshes `api/session` only when a POST returns the CSRF middleware's exact 403 error, then replays the same request once. This recovers an open tab when a header-auth pod starts with a different secret. Writes keep their idempotency key, and CSRF recovery shares one replay limit with the network retry. Unrelated errors, a failed refresh and a failed replay reach the caller. A rotated pairing secret still requires pairing again.
 - **Types**: `web/src/api.gen.ts` is generated from `types.go` by `TestGeneratedTypesAreCurrent`, and fails that test when stale.
 - **Bundle**: `pkg/web/dist` is committed and embedded with `go:embed`. `dist/source.sha256` hashes the inputs, and `TestEmbeddedBundleIsCurrent` fails when `web/` changed without `make web`. The GoReleaser before-hook runs that test and `TestGeneratedTypesAreCurrent`, so a release cannot ship a stale bundle and needs no Node.
 - **Mermaid**: the browser loads the pinned Mermaid asset only when a detail contains a Mermaid fence. It renders SVG in strict mode, keeps escaped source on failure, and preserves the original text for copy and edit. The asset is embedded with the web bundle. See [ADR 0031](adr/0031-render-mermaid-in-the-web-detail-view.md).
