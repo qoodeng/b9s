@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/vanderheijden86/b9s/pkg/model"
 )
 
 // generateHierarchyIssues creates a set of issues with parent-child relationships.

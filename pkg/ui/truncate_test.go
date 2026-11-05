@@ -33,4 +33,3 @@ func TestTruncateString_UTF8Safe(t *testing.T) {
 		})
 	}
 }
-

@@ -10,15 +10,15 @@ import (
 
 // SourceWatcher monitors data sources for changes and triggers callbacks
 type SourceWatcher struct {
-	watcher     *fsnotify.Watcher
-	sources     []DataSource
-	callback    func(changed DataSource)
-	debounce    time.Duration
-	lastChange  map[string]time.Time
-	mu          sync.Mutex
-	done        chan struct{}
-	verbose     bool
-	logger      func(msg string)
+	watcher    *fsnotify.Watcher
+	sources    []DataSource
+	callback   func(changed DataSource)
+	debounce   time.Duration
+	lastChange map[string]time.Time
+	mu         sync.Mutex
+	done       chan struct{}
+	verbose    bool
+	logger     func(msg string)
 }
 
 // WatcherOptions configures the source watcher

@@ -344,8 +344,8 @@ func TestHelpViewTransition(t *testing.T) {
 		name     string
 		enterKey string
 	}{
-		{"tree", ""},    // Default is tree (bd-dxc)
-		{"board", "b"},  // Board accessible from tree (bd-8hw.4)
+		{"tree", ""},   // Default is tree (bd-dxc)
+		{"board", "b"}, // Board accessible from tree (bd-8hw.4)
 	}
 
 	for _, v := range views {
@@ -387,8 +387,8 @@ func TestAllViewsRenderWithoutPanic(t *testing.T) {
 		name     string
 		enterKey string
 	}{
-		{"tree", ""},    // Default is tree (bd-dxc)
-		{"board", "b"},  // Board from tree (bd-8hw.4)
+		{"tree", ""},   // Default is tree (bd-dxc)
+		{"board", "b"}, // Board from tree (bd-8hw.4)
 		{"insights", "i"},
 		{"help", "?"},
 	}

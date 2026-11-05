@@ -16,7 +16,6 @@ func pressKeys(m Model, keys ...tea.KeyMsg) Model {
 	return m
 }
 
-
 // The detail footer advertises e:edit, so e must open the edit modal for the
 // issue the detail shows, also when the detail was reached through a search.
 func TestDetailViewEKeyOpensEditModal(t *testing.T) {

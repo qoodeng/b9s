@@ -219,7 +219,6 @@ func TestFocusTransitionBoard(t *testing.T) {
 	}
 }
 
-
 // TestFocusTransitionTree verifies tree is permanent (bd-8hw.4: no list view)
 func TestFocusTransitionTree(t *testing.T) {
 	issues := []model.Issue{

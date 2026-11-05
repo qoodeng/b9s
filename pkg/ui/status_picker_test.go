@@ -111,15 +111,15 @@ func TestStatusPickerView(t *testing.T) {
 
 	// Check for key elements in output
 	mustContain := []string{
-		"Change Status",          // Title
-		"Open",                   // First status
-		"Closed",                 // Last status
-		"Blocked",                // Current status
-		"✓",                      // Checkmark for current
-		"j/k: navigate",          // Footer
-		"enter: apply",           // Footer
-		"esc: cancel",            // Footer
-		"> ",                     // Selection marker
+		"Change Status", // Title
+		"Open",          // First status
+		"Closed",        // Last status
+		"Blocked",       // Current status
+		"✓",             // Checkmark for current
+		"j/k: navigate", // Footer
+		"enter: apply",  // Footer
+		"esc: cancel",   // Footer
+		"> ",            // Selection marker
 	}
 
 	for _, expected := range mustContain {

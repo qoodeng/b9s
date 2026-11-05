@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vanderheijden86/b9s/pkg/model"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/vanderheijden86/b9s/pkg/model"
 )
 
 // A search can keep a branch in the tree whose children do not match the
@@ -23,7 +23,7 @@ func TestTreeEnterOnChildOutsideQueryShowsChild(t *testing.T) {
 			Dependencies: []*model.Dependency{{IssueID: "doc-25s.1", DependsOnID: "doc-25s", Type: model.DepParentChild}}},
 		{ID: "doc-3wm.7.8", Title: "Detect and fix photo orientation", Status: model.StatusOpen,
 			IssueType: model.TypeTask, Priority: 2, CreatedAt: now.Add(-2 * time.Second),
-			Description: "Orientation child body",
+			Description:  "Orientation child body",
 			Dependencies: []*model.Dependency{{IssueID: "doc-3wm.7.8", DependsOnID: "doc-25s.1", Type: model.DepParentChild}}},
 	}
 	m := NewModel(issues, "")

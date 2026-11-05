@@ -46,7 +46,7 @@ func TestDetailSchedulingDatesE2E(t *testing.T) {
 	writeTreeFixture(t, dir, []treeFixtureIssue{{
 		ID: "schedule-1", Title: "Scheduled issue", Status: "open", Priority: 2, IssueType: "task",
 		CreatedAt: "2026-10-17T12:00:00Z",
-		DueDate: "2026-10-20T23:45:00-07:00", DeferUntil: "2026-10-19T22:30:00-07:00",
+		DueDate:   "2026-10-20T23:45:00-07:00", DeferUntil: "2026-10-19T22:30:00-07:00",
 	}})
 	out, err := runTreeTUI(t, dir, 2500, []keyStep{kd("\r", 200*time.Millisecond)})
 	if err != nil {
